@@ -3,7 +3,7 @@ spring:
         name: haengunse-server
 
     config:
-        import: application-dev.yml
+        import: application-dev.yml, swagger-config.yml
 
 server:
     port: 8080

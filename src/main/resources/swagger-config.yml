@@ -1,0 +1,10 @@
+springdoc:
+  api-docs:
+    path: /api-docs # OpenAPI 경로 커스터마이징
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    path: /swagger-ui.html # swagger-ui 접근 경로에 대한 별칭
+    disable-swagger-default-url: true
+  paths-to-match:
+    - /api/**
