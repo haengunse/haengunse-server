@@ -1,7 +1,9 @@
 package fortune.haengunseserver.domain.lucky.controller;
 
+import fortune.haengunseserver.domain.lucky.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.lucky.dto.request.LuckyMatchRequest;
 import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
+import fortune.haengunseserver.domain.lucky.dto.response.DreamResponse;
 import fortune.haengunseserver.domain.lucky.dto.response.LuckyMatchResponse;
 import fortune.haengunseserver.domain.lucky.dto.response.TodayLuckyResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +31,7 @@ public class LuckyController {
     @Operation(summary = "별자리 운세 조회")
     @ApiResponse(
             responseCode = "200",
-            description = "별자리 운세 데이터 반환",
+            description = "별자리 운세 데이터 정상 반환",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
     )
     @PostMapping("/star-lucky")
@@ -40,11 +42,22 @@ public class LuckyController {
     @Operation(summary = "띠 운세 조회")
     @ApiResponse(
             responseCode = "200",
-            description = "띠 운세 데이터 반환",
+            description = "띠 운세 데이터 정상 반환",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
     )
     @PostMapping("/age-lucky")
     public ResponseEntity<LuckyMatchResponse> getAgeLucky(@RequestBody LuckyMatchRequest request) {
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "꿈 해몽", description = "사용자의 꿈 질문을 기반으로 꿈 해몽을 반환합니다.")
+    @ApiResponse(
+            responseCode = "200",
+            description = "꿈 해몽 정상 반환",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
+    )
+    @PostMapping("/dream")
+    public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {
         return ResponseEntity.ok().build();
     }
 }
