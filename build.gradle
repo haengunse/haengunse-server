@@ -35,6 +35,11 @@ dependencies {
 
     //swagger
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0"
+
+    // WebFux
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {
