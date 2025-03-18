@@ -1,5 +1,6 @@
 package fortune.haengunseserver.domain.lucky.controller;
 
+import fortune.haengunseserver.domain.lucky.service.ManseCalculator;
 import fortune.haengunseserver.domain.lucky.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.lucky.dto.request.LuckyMatchRequest;
 import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
@@ -10,12 +11,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/lucky")
 public class LuckyController {
+
+    private final ManseCalculator manseCalculator;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -59,5 +64,15 @@ public class LuckyController {
     @PostMapping("/dream")
     public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {
         return ResponseEntity.ok().build();
+    }
+
+    // 만세력 계산 테스트용 API
+    @GetMapping("/calculate")
+    public String calculateManse(
+            @RequestParam String birthDate,
+            @RequestParam boolean isSolar,
+            @RequestParam String birthTime
+    ) {
+        return manseCalculator.calculateManse(birthDate, isSolar, birthTime);
     }
 }
