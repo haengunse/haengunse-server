@@ -21,8 +21,8 @@ public enum Tenkan {
     Tenkan(String name, String hanja, String element, String yinYang) {
         this.name = name;
         this.hanja = hanja;
-        this.element = element;
-        this.yinYang = yinYang;
+        this.element = element; // 오행
+        this.yinYang = yinYang; // 음양
     }
 
     public String getName() { return name; }

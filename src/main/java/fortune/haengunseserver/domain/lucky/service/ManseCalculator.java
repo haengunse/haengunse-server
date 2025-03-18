@@ -16,29 +16,42 @@ public class ManseCalculator {
         LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalTime time = LocalTime.parse(birthTime, DateTimeFormatter.ofPattern("HH:mm"));
 
-        Tenkan yearGan = Tenkan.fromIndex((date.getYear() - 4) % 10);
-        Jiji yearZhi = Jiji.fromIndex((date.getYear() - 4) % 12);
-        String yearGanZhi = yearGan.getHanja() + yearZhi.getHanja(); // 한자 출력
+        // 연주 계산
+        String yearGanZhi = formatGanZhi(
+                Tenkan.fromIndex((date.getYear() - 4) % 10),
+                Jiji.fromIndex((date.getYear() - 4) % 12)
+        );
 
-        Tenkan monthGan = Tenkan.fromIndex((date.getYear() * 12 + date.getMonthValue()) % 10);
-        Jiji monthZhi = Jiji.fromIndex(date.getMonthValue() % 12);
-        String monthGanZhi = monthGan.getHanja() + monthZhi.getHanja(); // 한자 출력
+        // 월주 계산: 절기 보정 필요
+        String monthGanZhi = formatGanZhi(
+                Tenkan.fromIndex((date.getYear() * 12 + date.getMonthValue()) % 10),
+                Jiji.fromIndex(date.getMonthValue() % 12)
+        );
 
-        int totalDays = (int) (date.toEpochDay() % 60);
-        Tenkan dayGan = Tenkan.fromIndex(totalDays % 10);
-        Jiji dayZhi = Jiji.fromIndex(totalDays % 12);
-        String dayGanZhi = dayGan.getHanja() + dayZhi.getHanja(); // 한자 출력
+        // 일주 계산: 60갑자 계산 필요
+        int totalDays = (int) date.toEpochDay() % 60;
+        String dayGanZhi = formatGanZhi(
+                Tenkan.fromIndex(totalDays % 10),
+                Jiji.fromIndex(totalDays % 12)
+        );
 
+        // 시주 계산
         int hourIndex = (time.getHour() + 1) / 2 % 12;
-        Tenkan hourGan = Tenkan.fromIndex((dayGan.ordinal() * 2 + hourIndex) % 10);
-        Jiji hourZhi = Jiji.fromIndex(hourIndex);
-        String hourGanZhi = hourGan.getHanja() + hourZhi.getHanja(); // 한자 출력
+        String hourGanZhi = formatGanZhi(
+                Tenkan.fromIndex((totalDays % 10 * 2 + hourIndex) % 10),
+                Jiji.fromIndex(hourIndex)
+        );
 
-        return String.format("연주: %s(%s/%s), 월주: %s(%s/%s), 일주: %s(%s/%s), 시주: %s(%s/%s)",
-                yearGanZhi, yearGan.getElement(), yearGan.getYinYang(),
-                monthGanZhi, monthGan.getElement(), monthGan.getYinYang(),
-                dayGanZhi, dayGan.getElement(), dayGan.getYinYang(),
-                hourGanZhi, hourGan.getElement(), hourGan.getYinYang());
+        return String.format(
+                "연주: %s\n월주: %s\n일주: %s\n시주: %s",
+                yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
+        );
+    }
+
+    // 데이터 포맷하여 결과 반환
+    private String formatGanZhi(Tenkan gan, Jiji zhi) {
+        return gan.getName() + zhi.getName() + "[" + gan.getHanja() + zhi.getHanja() + "]"
+                + "(" + gan.getElement() + "/" + gan.getYinYang() + ")";
     }
 }
 
