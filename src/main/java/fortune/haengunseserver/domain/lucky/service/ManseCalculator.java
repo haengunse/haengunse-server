@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import fortune.haengunseserver.domain.lucky.enums.Jiji;
+import fortune.haengunseserver.domain.lucky.enums.SolarTerm;
 import fortune.haengunseserver.domain.lucky.enums.Tenkan;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,24 @@ public class ManseCalculator {
 
         return String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
-                yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
+                yearGanZhi, getMonthGanZhi(date), dayGanZhi, hourGanZhi
         );
+    }
+
+    private String getMonthGanZhi(LocalDate date) {
+        int year = date.getYear();
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
+
+        // 절기 기준으로 월주의 지지 결정
+        String zhiHanja = SolarTerm.getZhiForDate(month, day);  // 예: "亥"
+        Jiji monthZhi = Jiji.fromHanja(zhiHanja);  // 오류 방지: 한자로 안전한 조회 방식 적용
+
+        // 월주의 천간 결정 (연주의 천간에 따라 다름)
+        int yearGanIndex = (year - 4) % 10; // 연주의 천간 인덱스
+        int monthGanIndex = (yearGanIndex * 2 + monthZhi.ordinal()) % 10; // 월주 천간 계산
+
+        return formatGanZhi(Tenkan.fromIndex(monthGanIndex), monthZhi);
     }
 
     // 데이터 포맷하여 결과 반환

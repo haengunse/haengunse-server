@@ -35,4 +35,13 @@ public enum Jiji {
     public static Jiji fromIndex(int index) {
         return values()[index % 12];
     }
+
+    public static Jiji fromHanja(String hanja) {
+        for (Jiji j : values()) {
+            if (j.getHanja().equals(hanja)) {
+                return j;
+            }
+        }
+        throw new IllegalArgumentException("No matching Jiji for hanja: " + hanja);
+    }
 }
