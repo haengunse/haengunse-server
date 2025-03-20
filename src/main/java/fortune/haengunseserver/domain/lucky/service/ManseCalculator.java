@@ -3,6 +3,7 @@ package fortune.haengunseserver.domain.lucky.service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import fortune.haengunseserver.domain.lucky.enums.Jiji;
 import fortune.haengunseserver.domain.lucky.enums.SolarTerm;
@@ -11,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ManseCalculator {
+
+    // 기준일: 1900년 1월 1일 (己亥년, 丙子월, 甲戌일)
+    private static final LocalDate BASE_DATE = LocalDate.of(1900, 1, 1);
 
     public String calculateManse(String birthDate, boolean isSolar, String birthTime) {
 
@@ -23,18 +27,7 @@ public class ManseCalculator {
                 Jiji.fromIndex((date.getYear() - 4) % 12)
         );
 
-        // 월주 계산: 절기 보정 필요
-        String monthGanZhi = formatGanZhi(
-                Tenkan.fromIndex((date.getYear() * 12 + date.getMonthValue()) % 10),
-                Jiji.fromIndex(date.getMonthValue() % 12)
-        );
-
-        // 일주 계산: 60갑자 계산 필요
-        int totalDays = (int) date.toEpochDay() % 60;
-        String dayGanZhi = formatGanZhi(
-                Tenkan.fromIndex(totalDays % 10),
-                Jiji.fromIndex(totalDays % 12)
-        );
+        int totalDays = (int) ChronoUnit.DAYS.between(BASE_DATE, date) % 60;
 
         // 시주 계산
         int hourIndex = (time.getHour() + 1) / 2 % 12;
@@ -45,10 +38,11 @@ public class ManseCalculator {
 
         return String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
-                yearGanZhi, getMonthGanZhi(date), dayGanZhi, hourGanZhi
+                yearGanZhi, getMonthGanZhi(date), getDayGanZhi(date, time), hourGanZhi
         );
     }
 
+    // 월주 계산
     private String getMonthGanZhi(LocalDate date) {
         int year = date.getYear();
         int month = date.getMonthValue();
@@ -63,6 +57,31 @@ public class ManseCalculator {
         int monthGanIndex = (yearGanIndex * 2 + monthZhi.ordinal()) % 10; // 월주 천간 계산
 
         return formatGanZhi(Tenkan.fromIndex(monthGanIndex), monthZhi);
+    }
+
+    // 일주 계산
+    public String getDayGanZhi(LocalDate date, LocalTime time) {
+        // 대한민국 표준시 적용 (23:30 이후에 태어나면 다음 날로 변경)
+        if (time.getHour() > 23 || (time.getHour() == 23 && time.getMinute() >= 30)) {
+            date = date.plusDays(1);
+        }
+
+        // 기준일(1900-01-01)부터 경과된 총 일수 계산
+        long daysElapsed = ChronoUnit.DAYS.between(BASE_DATE, date);
+
+        // 천간 계산 (10주기)
+        int ganIndex = (int) (daysElapsed % 10) % 10;
+        int zhiIndex = (10 + (int) (daysElapsed % 12)) % 12;
+
+        return getGanZhi(ganIndex, zhiIndex);
+    }
+
+    // 천간과 지지를 포맷하여 문자열 반환
+    private String getGanZhi(int ganIndex, int zhiIndex) {
+        Tenkan gan = Tenkan.fromIndex(ganIndex);
+        Jiji zhi = Jiji.fromIndex(zhiIndex);
+
+        return formatGanZhi(gan, zhi);
     }
 
     // 데이터 포맷하여 결과 반환
