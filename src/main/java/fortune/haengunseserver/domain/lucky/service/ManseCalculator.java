@@ -32,8 +32,12 @@ public class ManseCalculator {
 
     // 연주 계산
     private String getYearGanZhi(LocalDate date) {
-        Tenkan yearGan = Tenkan.fromIndex((date.getYear() - 4) % 10);
-        Jiji yearZhi = Jiji.fromIndex((date.getYear() - 4) % 12);
+        int year = date.getYear();
+        year = isBeforeIpchun(year, date.getMonthValue(), date.getDayOfMonth()) ? year - 1 : year;
+
+        Tenkan yearGan = Tenkan.fromIndex((year - 4) % 10);
+        Jiji yearZhi = Jiji.fromIndex((year - 4) % 12);
+
         return formatGanZhi(yearGan, yearZhi);
     }
 
@@ -79,6 +83,13 @@ public class ManseCalculator {
         Jiji hourZhi = Jiji.fromIndex(hourIndex);
 
         return formatGanZhi(hourGan, hourZhi);
+    }
+
+    // 입춘 이전인지 확인
+    private boolean isBeforeIpchun(int year, int month, int day) {
+        LocalDate ipchunDate = LocalDate.of(year, 2, 4); // 입춘(2월 4일) 기준
+        LocalDate birthDate = LocalDate.of(year, month, day);
+        return birthDate.isBefore(ipchunDate);
     }
 
     // 천간과 지지를 포맷하여 문자열 반환
