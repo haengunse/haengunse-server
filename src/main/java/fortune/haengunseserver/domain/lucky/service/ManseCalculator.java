@@ -102,8 +102,11 @@ public class ManseCalculator {
 
     // 데이터 포맷하여 결과 반환
     private String formatGanZhi(Tenkan gan, Jiji zhi) {
-        return gan.getName() + zhi.getName() + "[" + gan.getHanja() + zhi.getHanja() + "]"
-                + "(" + gan.getElement() + "/" + gan.getYinYang() + ")";
+        return String.format("%s(%s/%s) %s(%s/%s) [%s%s]",
+                gan.getName(), gan.getElement(), gan.getYinYang(),
+                zhi.getName(), zhi.getElement(), zhi.getYinYang(),
+                gan.getHanja(), zhi.getHanja());
     }
+
 }
 
