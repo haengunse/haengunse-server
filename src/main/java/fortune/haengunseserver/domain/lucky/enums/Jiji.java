@@ -1,5 +1,10 @@
 package fortune.haengunseserver.domain.lucky.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public enum Jiji {
 
     자("자", "子", "수", "양"),
@@ -19,18 +24,6 @@ public enum Jiji {
     private final String hanja;
     private final String element;
     private final String yinYang;
-
-    Jiji(String name, String hanja, String element, String yinYang) {
-        this.name = name;
-        this.hanja = hanja;
-        this.element = element; // 오행
-        this.yinYang = yinYang; // 음양
-    }
-
-    public String getName() { return name; }
-    public String getHanja() { return hanja; }
-    public String getElement() { return element; }
-    public String getYinYang() { return yinYang; }
 
     public static Jiji fromIndex(int index) {
         return values()[index % 12];

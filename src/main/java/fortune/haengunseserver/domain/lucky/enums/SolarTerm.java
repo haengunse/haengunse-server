@@ -1,9 +1,10 @@
 package fortune.haengunseserver.domain.lucky.enums;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public enum SolarTerm {
+
     입춘(2, 4, "寅"),  // 2월 4일경
     경칩(3, 6, "卯"),  // 3월 6일경
     청명(4, 5, "辰"),  // 4월 5일경
@@ -17,29 +18,11 @@ public enum SolarTerm {
     대설(12, 7, "子"), // 12월 7일경
     소한(1, 6, "丑");  // 1월 6일경
 
-    private static final Map<Integer, SolarTerm> MONTH_MAP = new HashMap<>();
-
-    static {
-        for (SolarTerm term : values()) {
-            MONTH_MAP.put(term.month, term);
-        }
-    }
-
     private final int month;
     private final int day;
     private final String zhi;
 
-    SolarTerm(int month, int day, String zhi) {
-        this.month = month;
-        this.day = day;
-        this.zhi = zhi;
-    }
-
-    public int getMonth() { return month; }
-    public int getDay() { return day; }
-    public String getZhi() { return zhi; }
-
-    // 특정 날짜가 속하는 월주의 지지를 반환
+    // 특정 날짜가 속하는 월주의 지지 반환
     public static String getZhiForDate(int month, int day) {
         for (SolarTerm term : values()) {
             if (month == term.month && day >= term.day) {
