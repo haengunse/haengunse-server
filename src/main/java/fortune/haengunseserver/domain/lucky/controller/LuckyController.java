@@ -1,5 +1,6 @@
 package fortune.haengunseserver.domain.lucky.controller;
 
+import fortune.haengunseserver.domain.lucky.service.FortuneService;
 import fortune.haengunseserver.domain.lucky.service.ManseCalculator;
 import fortune.haengunseserver.domain.lucky.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.lucky.dto.request.LuckyMatchRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class LuckyController {
 
     private final ManseCalculator manseCalculator;
+    private final FortuneService<TodayLuckyRequest, TodayLuckyResponse> todayLuckyService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -30,7 +32,8 @@ public class LuckyController {
     )
     @PostMapping("/today")
     public ResponseEntity<TodayLuckyResponse> getTodayLucky(@RequestBody TodayLuckyRequest request) {
-        return ResponseEntity.ok().build();
+        TodayLuckyResponse response = todayLuckyService.getFortune(request);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "별자리 운세 조회")
