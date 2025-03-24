@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
+import fortune.haengunseserver.domain.lucky.enums.HourBranch;
 import fortune.haengunseserver.domain.lucky.enums.Jiji;
 import fortune.haengunseserver.domain.lucky.enums.SolarTerm;
 import fortune.haengunseserver.domain.lucky.enums.Tenkan;
@@ -19,14 +20,19 @@ public class ManseCalculator {
     // 사주 계산
     public String calculateManse(String birthDate, boolean isSolar, String birthTime) {
         LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalTime time = LocalTime.parse(birthTime, DateTimeFormatter.ofPattern("HH:mm"));
+
+        String yearGanZhi = getYearGanZhi(date);
+        String monthGanZhi = getMonthGanZhi(date);
+
+        String dayGanZhi = birthTime.equals("모름")
+                ? getDayGanZhi(date) : getDayGanZhi(date, birthTime);
+
+        String hourGanZhi = birthTime.equals("모름")
+                ? "시주: 출생 시각 미확인" : getHourGanZhi(date, birthTime);
 
         return String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
-                getYearGanZhi(date),
-                getMonthGanZhi(date),
-                getDayGanZhi(date, time),
-                getHourGanZhi(date, time)
+                yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
         );
     }
 
@@ -59,27 +65,50 @@ public class ManseCalculator {
     }
 
     // 일주 계산
-    public String getDayGanZhi(LocalDate date, LocalTime time) {
-        // 대한민국 표준시 적용 (23:30 이후에 태어나면 다음 날로 변경)
-        if (time.getHour() > 23 || (time.getHour() == 23 && time.getMinute() >= 30)) {
+    public String getDayGanZhi(LocalDate date, String hourLabel) {
+        // 시간 범위 추출
+        String timeRange = hourLabel.substring(hourLabel.indexOf('(') + 1, hourLabel.indexOf(')'));
+        String[] times = timeRange.split("~");
+
+        LocalTime start = LocalTime.parse(normalizeTime(times[0]));
+        LocalTime end = LocalTime.parse(normalizeTime(times[1]));
+
+        // 자시인지 판단
+        if (end.isBefore(start)) {
             date = date.plusDays(1);
         }
 
-        // 기준일(1900-01-01)부터 경과된 총 일수 계산
         long daysElapsed = ChronoUnit.DAYS.between(BASE_DATE, date);
 
-        // 천간 계산 (10주기)
-        int ganIndex = (int) (daysElapsed % 10) % 10;
+        int ganIndex = (int) (daysElapsed % 10);
         int zhiIndex = (10 + (int) (daysElapsed % 12)) % 12;
 
         return getGanZhi(ganIndex, zhiIndex);
     }
 
+    // 태어난 시간 모를 경우
+    public String getDayGanZhi(LocalDate date) {
+        long daysElapsed = ChronoUnit.DAYS.between(BASE_DATE, date);
+        int ganIndex = (int) (daysElapsed % 10);
+        int zhiIndex = (10 + (int) (daysElapsed % 12)) % 12;
+
+        return getGanZhi(ganIndex, zhiIndex);
+    }
+
+    // "1:30" → "01:30"
+    private String normalizeTime(String t) {
+        return t.trim().length() == 4 ? "0" + t.trim() : t.trim();
+    }
+
     // 시주(時柱) 계산
-    private String getHourGanZhi(LocalDate date, LocalTime time) {
+    private String getHourGanZhi(LocalDate date, String hourLabelWithTime) {
         int totalDays = (int) ChronoUnit.DAYS.between(BASE_DATE, date) % 60;
-        int hourIndex = (time.getHour() + 1) / 2 % 12;
-        Tenkan hourGan = Tenkan.fromIndex((totalDays % 10 * 2 + hourIndex) % 10);
+        int dayGanIndex = totalDays % 10;
+
+        HourBranch hour = HourBranch.fromLabel(hourLabelWithTime); // "자시 (23:30~1:30)"
+        int hourIndex = hour.getIndex();
+
+        Tenkan hourGan = Tenkan.fromIndex((dayGanIndex * 2 + hourIndex) % 10);
         Jiji hourZhi = Jiji.fromIndex(hourIndex);
 
         return formatGanZhi(hourGan, hourZhi);

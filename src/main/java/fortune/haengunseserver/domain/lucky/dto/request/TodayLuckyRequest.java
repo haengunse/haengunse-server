@@ -14,8 +14,8 @@ public class TodayLuckyRequest {
     @Schema(description = "사용자 생년월일 (YYYY-MM-DD)", example = "1995-06-15")
     private String birthDate;
 
-    @Schema(description = "양력(solar) / 음력(lunar) / 윤달(lunarLeaf)")
-    private String calendar;
+    @Schema(description = "양력(true) / 음력(false)", example = "true")
+    private boolean solar;
 
     @Schema(description = "출생 시간", example = "자시 (23:30~1:30)")
     private String birthTime;

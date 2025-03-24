@@ -2,7 +2,6 @@ package fortune.haengunseserver.domain.lucky.service;
 
 import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
 import fortune.haengunseserver.domain.lucky.dto.response.TodayLuckyResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
