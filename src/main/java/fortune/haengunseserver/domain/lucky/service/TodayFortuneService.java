@@ -1,5 +1,6 @@
 package fortune.haengunseserver.domain.lucky.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
 import fortune.haengunseserver.domain.lucky.dto.response.TodayLuckyResponse;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -7,6 +8,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -15,11 +17,11 @@ import java.time.format.DateTimeFormatter;
  * FortuneService 인터페이스를 구현하여 운세 조회 기능 제공
  */
 @Service
-public class TodayLuckyService extends FortuneRequestService<TodayLuckyRequest, TodayLuckyResponse> {
+public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest, TodayLuckyResponse> {
 
     private final ManseCalculator manse;
 
-    public TodayLuckyService(OpenAiChatModel chatModel, ManseCalculator manse) {
+    public TodayFortuneService(OpenAiChatModel chatModel, ManseCalculator manse) {
         super(chatModel);
         this.manse = manse;
     }
@@ -31,6 +33,7 @@ public class TodayLuckyService extends FortuneRequestService<TodayLuckyRequest, 
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
         String content = String.format("""
+                        당신은 유능한 역술가입니다.
                         사주를 기반으로 한 오늘의 운세를 볼 예정입니다.
 
                         사용자의 정보는 다음과 같습니다:
@@ -56,11 +59,10 @@ public class TodayLuckyService extends FortuneRequestService<TodayLuckyRequest, 
                         - 건강운
                         - 학업운
                         - 직장운
-                        - 오늘 운세에 기반한 간단 메시지(ex: 오늘은 컨디션 조절이 필요한 하루에요)
-                        - 행운의 아이템과 색상
+                        - 오늘 운세에 기반한 간단한 조언(ex: 오늘은 컨디션 조절이 필요한 하루에요)
 
                         각 운세 항목(재물운, 연애운, 건강운, 학업운, 직장운)은 5점 만점으로 점수도 반환해주세요.
-                        운세 항목별로 3줄 이상 설명해주세요.
+                        운세 항목별로 6줄 이상 설명해주세요.
 
                         다음과 같은 형식(json)으로 반환해주세요:
 
@@ -88,8 +90,6 @@ public class TodayLuckyService extends FortuneRequestService<TodayLuckyRequest, 
                                 "description": "..."
                             },
                             "dailyMessage": "오늘은 컨디션 조절이 필요한 하루예요.",
-                            "luckyItem": "블루투스 이어폰",
-                            "luckyColor": "네이비 블루"
                         }
                         """,
                 input.getName(),
@@ -108,8 +108,20 @@ public class TodayLuckyService extends FortuneRequestService<TodayLuckyRequest, 
      * GPT 응답을 처리하여 TodayLuckyResponse 객체로 변환
      */
     @Override
-    protected TodayLuckyResponse processResponse (ChatResponse response) {
-        String fortuneText = response.getResult().getOutput().getText();
-        return new TodayLuckyResponse(fortuneText);
+    protected TodayLuckyResponse processResponse(ChatResponse response) {
+        String raw = response.getResult().getOutput().getText();
+
+        // JSON 태그 제거: ```json\n{...}\n```
+        String cleanJson = raw
+                .replaceAll("(?s)^```json\\s*", "") // 시작 백틱 제거
+                .replaceAll("\\s*```$", "")         // 종료 백틱 제거
+                .trim();
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(cleanJson, TodayLuckyResponse.class);
+        } catch (IOException e) {
+            throw new RuntimeException("GPT 응답 파싱 실패", e);
+        }
     }
 }
