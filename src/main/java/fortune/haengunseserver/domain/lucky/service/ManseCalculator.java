@@ -9,31 +9,53 @@ import fortune.haengunseserver.domain.lucky.enums.HourBranch;
 import fortune.haengunseserver.domain.lucky.enums.Jiji;
 import fortune.haengunseserver.domain.lucky.enums.SolarTerm;
 import fortune.haengunseserver.domain.lucky.enums.Tenkan;
+import fortune.haengunseserver.global.calendar.service.CalendarService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ManseCalculator {
+
+    private final CalendarService kasiClient;
 
     // 기준일: 1900년 1월 1일 (己亥년, 丁丑월, 甲戌일)
     private static final LocalDate BASE_DATE = LocalDate.of(1900, 1, 1);
 
     // 사주 계산
     public String calculateManse(String birthDate, boolean isSolar, String birthTime) {
-        LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate solDate;
 
-        String yearGanZhi = getYearGanZhi(date);
-        String monthGanZhi = getMonthGanZhi(date);
+        if (isSolar) {
+            solDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } else {
+            LocalDate lunDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            System.out.println("lunDate = " + lunDate);
+            String lunYear = String.valueOf(lunDate.getYear());
+            String lunMonth = pad2(lunDate.getMonthValue()); // "09"
+            String lunDay = pad2(lunDate.getDayOfMonth()); // "01" ~ "31"
+
+            // 한국천문연구원 API 호출로 음력 → 양력 변환
+            solDate = kasiClient.convertToSolar(lunYear, lunMonth, lunDay).block().toLocalDate();
+        }
+
+        String yearGanZhi = getYearGanZhi(solDate);
+        String monthGanZhi = getMonthGanZhi(solDate);
 
         String dayGanZhi = birthTime.equals("모름")
-                ? getDayGanZhi(date) : getDayGanZhi(date, birthTime);
+                ? getDayGanZhi(solDate) : getDayGanZhi(solDate, birthTime);
 
         String hourGanZhi = birthTime.equals("모름")
-                ? "출생 시각 미확인" : getHourGanZhi(date, birthTime);
+                ? "출생 시각 미확인" : getHourGanZhi(solDate, birthTime);
 
         return String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
                 yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
         );
+    }
+
+    public static String pad2(int n) {
+        return String.format("%02d", n);
     }
 
     // 연주 계산
