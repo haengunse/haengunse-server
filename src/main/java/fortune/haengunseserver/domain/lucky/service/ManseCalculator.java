@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ManseCalculator {
 
-    // 기준일: 1900년 1월 1일 (己亥년, 丙子월, 甲戌일)
+    // 기준일: 1900년 1월 1일 (己亥년, 丁丑월, 甲戌일)
     private static final LocalDate BASE_DATE = LocalDate.of(1900, 1, 1);
 
     // 사주 계산
@@ -28,7 +28,7 @@ public class ManseCalculator {
                 ? getDayGanZhi(date) : getDayGanZhi(date, birthTime);
 
         String hourGanZhi = birthTime.equals("모름")
-                ? "시주: 출생 시각 미확인" : getHourGanZhi(date, birthTime);
+                ? "출생 시각 미확인" : getHourGanZhi(date, birthTime);
 
         return String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
