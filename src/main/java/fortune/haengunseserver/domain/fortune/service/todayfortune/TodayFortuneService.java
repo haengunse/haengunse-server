@@ -1,8 +1,9 @@
-package fortune.haengunseserver.domain.lucky.service;
+package fortune.haengunseserver.domain.fortune.service.todayfortune;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
-import fortune.haengunseserver.domain.lucky.dto.response.TodayLuckyResponse;
+import fortune.haengunseserver.domain.fortune.dto.request.TodayFortuneRequest;
+import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
+import fortune.haengunseserver.domain.fortune.service.FortuneRequestService;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -17,7 +18,7 @@ import java.time.format.DateTimeFormatter;
  * FortuneService 인터페이스를 구현하여 운세 조회 기능 제공
  */
 @Service
-public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest, TodayLuckyResponse> {
+public class TodayFortuneService extends FortuneRequestService<TodayFortuneRequest, TodayFortuneResponse> {
 
     private final ManseCalculator manse;
 
@@ -28,7 +29,7 @@ public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest
 
     //  사용자의 생년월일을 만세력으로 변환하여 GPT에 요청할 프롬프트 생성
     @Override
-    public Prompt generatePrompt(TodayLuckyRequest input) {
+    public Prompt generatePrompt(TodayFortuneRequest input) {
         String mansaeInfo = manse.calculateManse(input.getBirthDate(), input.isSolar(), input.getBirthTime());
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
@@ -108,7 +109,7 @@ public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest
      * GPT 응답을 처리하여 TodayLuckyResponse 객체로 변환
      */
     @Override
-    protected TodayLuckyResponse processResponse(ChatResponse response) {
+    protected TodayFortuneResponse processResponse(ChatResponse response) {
         String raw = response.getResult().getOutput().getText();
 
         // JSON 태그 제거: ```json\n{...}\n```
@@ -119,7 +120,7 @@ public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest
 
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cleanJson, TodayLuckyResponse.class);
+            return mapper.readValue(cleanJson, TodayFortuneResponse.class);
         } catch (IOException e) {
             throw new RuntimeException("GPT 응답 파싱 실패", e);
         }

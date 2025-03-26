@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.lucky.service;
+package fortune.haengunseserver.domain.fortune.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatResponse;

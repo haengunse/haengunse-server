@@ -1,14 +1,14 @@
-package fortune.haengunseserver.domain.lucky.service;
+package fortune.haengunseserver.domain.fortune.service.todayfortune;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import fortune.haengunseserver.domain.lucky.enums.HourBranch;
-import fortune.haengunseserver.domain.lucky.enums.Jiji;
-import fortune.haengunseserver.domain.lucky.enums.SolarTerm;
-import fortune.haengunseserver.domain.lucky.enums.Tenkan;
+import fortune.haengunseserver.domain.fortune.enums.HourBranch;
+import fortune.haengunseserver.domain.fortune.enums.Jiji;
+import fortune.haengunseserver.domain.fortune.enums.SolarTerm;
+import fortune.haengunseserver.domain.fortune.enums.Tenkan;
 import fortune.haengunseserver.global.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,13 +1,13 @@
-package fortune.haengunseserver.domain.lucky.controller;
+package fortune.haengunseserver.domain.fortune.controller;
 
-import fortune.haengunseserver.domain.lucky.service.FortuneService;
-import fortune.haengunseserver.domain.lucky.service.ManseCalculator;
-import fortune.haengunseserver.domain.lucky.dto.request.DreamRequest;
-import fortune.haengunseserver.domain.lucky.dto.request.LuckyMatchRequest;
-import fortune.haengunseserver.domain.lucky.dto.request.TodayLuckyRequest;
-import fortune.haengunseserver.domain.lucky.dto.response.DreamResponse;
-import fortune.haengunseserver.domain.lucky.dto.response.LuckyMatchResponse;
-import fortune.haengunseserver.domain.lucky.dto.response.TodayLuckyResponse;
+import fortune.haengunseserver.domain.fortune.service.FortuneService;
+import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
+import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
+import fortune.haengunseserver.domain.fortune.dto.request.LuckyMatchRequest;
+import fortune.haengunseserver.domain.fortune.dto.request.TodayFortuneRequest;
+import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
+import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
+import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,20 +19,20 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/lucky")
-public class LuckyController {
+public class FortuneController {
 
     private final ManseCalculator manseCalculator;
-    private final FortuneService<TodayLuckyRequest, TodayLuckyResponse> todayLuckyService;
+    private final FortuneService<TodayFortuneRequest, TodayFortuneResponse> todayLuckyService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
             responseCode = "200",
             description = "운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodayLuckyResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodayFortuneResponse.class))
     )
     @PostMapping("/today")
-    public ResponseEntity<TodayLuckyResponse> getTodayLucky(@RequestBody TodayLuckyRequest request) {
-        TodayLuckyResponse response = todayLuckyService.getFortune(request);
+    public ResponseEntity<TodayFortuneResponse> getTodayFortune(@RequestBody TodayFortuneRequest request) {
+        TodayFortuneResponse response = todayLuckyService.getFortune(request);
         return ResponseEntity.ok(response);
     }
 
@@ -40,10 +40,10 @@ public class LuckyController {
     @ApiResponse(
             responseCode = "200",
             description = "별자리 운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
     )
     @PostMapping("/star-lucky")
-    public ResponseEntity<LuckyMatchResponse> getStarLucky(@RequestBody LuckyMatchRequest request) {
+    public ResponseEntity<FortuneMatchResponse> getStarFortune(@RequestBody LuckyMatchRequest request) {
         return ResponseEntity.ok().build();
     }
 
@@ -51,10 +51,10 @@ public class LuckyController {
     @ApiResponse(
             responseCode = "200",
             description = "띠 운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
     )
     @PostMapping("/age-lucky")
-    public ResponseEntity<LuckyMatchResponse> getAgeLucky(@RequestBody LuckyMatchRequest request) {
+    public ResponseEntity<FortuneMatchResponse> getAgeFortune(@RequestBody LuckyMatchRequest request) {
         return ResponseEntity.ok().build();
     }
 
@@ -62,7 +62,7 @@ public class LuckyController {
     @ApiResponse(
             responseCode = "200",
             description = "꿈 해몽 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LuckyMatchResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
     )
     @PostMapping("/dream")
     public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {

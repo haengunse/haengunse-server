@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.lucky.service;
+package fortune.haengunseserver.domain.fortune.service;
 
 import org.springframework.ai.chat.prompt.Prompt;
 

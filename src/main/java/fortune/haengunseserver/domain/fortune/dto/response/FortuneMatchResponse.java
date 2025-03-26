@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.lucky.dto.response;
+package fortune.haengunseserver.domain.fortune.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "띠/별자리 운세 결과 응답")
-public class LuckyMatchResponse {
+public class FortuneMatchResponse {
 
     @Schema(description = "운세 결과 메시지")
     private String mainMessage;

@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.lucky.enums;
+package fortune.haengunseserver.domain.fortune.enums;
 
 import lombok.AllArgsConstructor;
 

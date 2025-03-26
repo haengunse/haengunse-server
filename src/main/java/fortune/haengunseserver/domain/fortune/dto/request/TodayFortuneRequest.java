@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.lucky.dto.request;
+package fortune.haengunseserver.domain.fortune.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "오늘의 운세 요청")
-public class TodayLuckyRequest {
+public class TodayFortuneRequest {
 
     @Schema(description = "사용자 생년월일 (YYYY-MM-DD)", example = "1995-06-15")
     private String birthDate;
