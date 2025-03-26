@@ -61,35 +61,35 @@ public class TodayFortuneService extends FortuneRequestService<TodayLuckyRequest
                         - 직장운
                         - 오늘 운세에 기반한 간단한 조언(ex: 오늘은 컨디션 조절이 필요한 하루에요)
 
-                        각 운세 항목(재물운, 연애운, 건강운, 학업운, 직장운)은 5점 만점으로 점수도 반환해주세요.
-                        운세 항목별로 6줄 이상 설명해주세요.
+                        각 운세 항목(재물운, 연애운, 건강운, 학업운, 직장운)은 5점 만점으로 점수도 반환해주세요. (ex: 2.0)
+                        운세 항목 별로 6줄 이상 설명해주세요.
 
                         다음과 같은 형식(json)으로 반환해주세요:
 
                         {
-                            "totalScore": 86,
+                            "totalScore": ,
                             "generalFortune": "...",
                             "wealthFortune": {
-                                "score": 3.5,
+                                "score": ,
                                 "description": "..."
                             },
                             "loveFortune": {
-                                "score": 2.6,
+                                "score": ,
                                 "description": "..."
                             },
                             "healthFortune": {
-                                "score": 3.2,
+                                "score": ,
                                 "description": "..."
                             },
                             "studyFortune": {
-                                "score": 3.9,
+                                "score": ,
                                 "description": "..."
                             },
                             "careerFortune": {
-                                "score": 3.3,
+                                "score": ,
                                 "description": "..."
                             },
-                            "dailyMessage": "오늘은 컨디션 조절이 필요한 하루예요.",
+                            "dailyMessage": ".." ,
                         }
                         """,
                 input.getName(),
