@@ -1,7 +1,6 @@
 package fortune.haengunseserver.domain.fortune.service.todayfortune;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -43,7 +42,7 @@ public class ManseCalculator {
         String monthGanZhi = getMonthGanZhi(solDate);
 
         String dayGanZhi = birthTime.equals("모름")
-                ? getDayGanZhi(solDate) : getDayGanZhi(solDate, birthTime);
+                ? getDayGanZhiWithoutTime(solDate) : getDayGanZhi(solDate);
 
         String hourGanZhi = birthTime.equals("모름")
                 ? "출생 시각 미확인" : getHourGanZhi(solDate, birthTime);
@@ -87,21 +86,9 @@ public class ManseCalculator {
     }
 
     // 일주 계산
-    public String getDayGanZhi(LocalDate date, String hourLabel) {
-        // 시간 범위 추출
-        String timeRange = hourLabel.substring(hourLabel.indexOf('(') + 1, hourLabel.indexOf(')'));
-        String[] times = timeRange.split("~");
-
-        LocalTime start = LocalTime.parse(normalizeTime(times[0]));
-        LocalTime end = LocalTime.parse(normalizeTime(times[1]));
-
-        // 자시인지 판단
-        if (end.isBefore(start)) {
-            date = date.plusDays(1);
-        }
+    public String getDayGanZhi(LocalDate date) {
 
         long daysElapsed = ChronoUnit.DAYS.between(BASE_DATE, date);
-
         int ganIndex = (int) (daysElapsed % 10);
         int zhiIndex = (10 + (int) (daysElapsed % 12)) % 12;
 
@@ -109,17 +96,12 @@ public class ManseCalculator {
     }
 
     // 태어난 시간 모를 경우
-    public String getDayGanZhi(LocalDate date) {
+    public String getDayGanZhiWithoutTime(LocalDate date) {
         long daysElapsed = ChronoUnit.DAYS.between(BASE_DATE, date);
         int ganIndex = (int) (daysElapsed % 10);
         int zhiIndex = (10 + (int) (daysElapsed % 12)) % 12;
 
         return getGanZhi(ganIndex, zhiIndex);
-    }
-
-    // "1:30" → "01:30"
-    private String normalizeTime(String t) {
-        return t.trim().length() == 4 ? "0" + t.trim() : t.trim();
     }
 
     // 시주(時柱) 계산
