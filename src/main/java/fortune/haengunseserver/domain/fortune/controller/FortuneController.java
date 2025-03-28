@@ -1,5 +1,6 @@
 package fortune.haengunseserver.domain.fortune.controller;
 
+import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.FortuneService;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
@@ -9,12 +10,15 @@ import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -40,10 +44,13 @@ public class FortuneController {
     @ApiResponse(
             responseCode = "200",
             description = "별자리 운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = StarResponseDto.class))
+            )
     )
     @PostMapping("/star-lucky")
-    public ResponseEntity<FortuneMatchResponse> getStarFortune(@RequestBody LuckyMatchRequest request) {
+    public ResponseEntity<List<StarResponseDto>> getStarFortune(@RequestBody LuckyMatchRequest request) {
         return ResponseEntity.ok().build();
     }
 
