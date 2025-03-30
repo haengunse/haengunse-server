@@ -5,7 +5,7 @@ import fortune.haengunseserver.domain.fortune.service.FortuneService;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.LuckyMatchRequest;
-import fortune.haengunseserver.domain.fortune.dto.request.TodayFortuneRequest;
+import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
