@@ -11,7 +11,7 @@ public class StarResponseDto {
     @Schema(description = "별자리 이름", example = "쌍둥이자리")
     private String starName;
 
-    @Schema(description = "별자리 생일", example = "양력 5월 21일~6월 21일")
+    @Schema(description = "별자리 생일 범위", example = "양력 5월 21일~6월 21일")
     private String dateRange;
 
     @Schema(description = "결과 메세지 및 별자리 매치")

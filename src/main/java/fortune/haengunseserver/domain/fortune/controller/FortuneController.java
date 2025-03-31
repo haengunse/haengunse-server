@@ -1,7 +1,7 @@
 package fortune.haengunseserver.domain.fortune.controller;
 
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
-import fortune.haengunseserver.domain.fortune.service.FortuneService;
+import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneService;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.LuckyMatchRequest;
@@ -9,6 +9,7 @@ import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFort
 import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
+import fortune.haengunseserver.domain.fortune.service.todayfortune.TodayFortuneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,11 +23,12 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/lucky")
+@RequestMapping("/api/fortune")
 public class FortuneController {
 
     private final ManseCalculator manseCalculator;
-    private final FortuneService<TodayFortuneRequest, TodayFortuneResponse> todayLuckyService;
+    private final TodayFortuneService todayLuckyService;
+    private final StarFortuneService starFortuneService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -49,9 +51,10 @@ public class FortuneController {
                     array = @ArraySchema(schema = @Schema(implementation = StarResponseDto.class))
             )
     )
-    @PostMapping("/star-lucky")
-    public ResponseEntity<List<StarResponseDto>> getStarFortune(@RequestBody LuckyMatchRequest request) {
-        return ResponseEntity.ok().build();
+    @GetMapping("/star")
+    public ResponseEntity<List<StarResponseDto>> getStarFortune() {
+        List<StarResponseDto> response = starFortuneService.getFortune(null);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "띠 운세 조회")
@@ -60,7 +63,7 @@ public class FortuneController {
             description = "띠 운세 데이터 정상 반환",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
     )
-    @PostMapping("/age-lucky")
+    @PostMapping("/age")
     public ResponseEntity<FortuneMatchResponse> getAgeFortune(@RequestBody LuckyMatchRequest request) {
         return ResponseEntity.ok().build();
     }
