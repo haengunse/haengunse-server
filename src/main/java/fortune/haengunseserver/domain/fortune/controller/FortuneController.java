@@ -1,10 +1,10 @@
 package fortune.haengunseserver.domain.fortune.controller;
 
+import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneService;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
-import fortune.haengunseserver.domain.fortune.dto.request.LuckyMatchRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
@@ -61,14 +61,17 @@ public class FortuneController {
     @ApiResponse(
             responseCode = "200",
             description = "띠 운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
+            content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = AgeResponseDto.class))
+            )
     )
-    @PostMapping("/age")
-    public ResponseEntity<FortuneMatchResponse> getAgeFortune(@RequestBody LuckyMatchRequest request) {
+    @GetMapping("/age")
+    public ResponseEntity<List<AgeResponseDto>> getAgeFortune() {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "꿈 해몽", description = "사용자의 꿈 질문을 기반으로 꿈 해몽을 반환합니다.")
+    @Operation(summary = "꿈 해몽")
     @ApiResponse(
             responseCode = "200",
             description = "꿈 해몽 정상 반환",

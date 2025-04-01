@@ -35,7 +35,7 @@ public class StarFortuneService extends FortuneRequestService<Void, List<StarRes
                         JSON 형식은 다음과 같이 보내주세요:
                                                 
                         {
-                          "starName": "별자리 이름 ",
+                          "starName": "별자리 이름",
                           "dateRange": "양력 기준 날짜 범위",
                           "content": {
                             "mainMessage": "오늘의 운세 메시지",
@@ -52,8 +52,6 @@ public class StarFortuneService extends FortuneRequestService<Void, List<StarRes
                         """,
                 todayDate
         );
-
-        System.out.println(content);
 
         return new Prompt(content);
     }
