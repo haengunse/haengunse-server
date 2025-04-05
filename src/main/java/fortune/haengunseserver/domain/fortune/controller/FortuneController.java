@@ -75,7 +75,7 @@ public class FortuneController {
     @ApiResponse(
             responseCode = "200",
             description = "꿈 해몽 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = FortuneMatchResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = DreamResponse.class))
     )
     @PostMapping("/dream")
     public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {
