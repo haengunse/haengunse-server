@@ -3,6 +3,7 @@ package fortune.haengunseserver.domain.fortune.controller;
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneService;
+import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
@@ -29,7 +30,7 @@ public class FortuneController {
     private final ManseCalculator manseCalculator;
     private final TodayFortuneService todayLuckyService;
     private final StarFortuneStore starFortuneStore;
-    private final AgeFortuneService ageFortuneService;
+    private final AgeFortuneStore ageFortuneStore;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -74,8 +75,13 @@ public class FortuneController {
     )
     @GetMapping("/age")
     public ResponseEntity<List<AgeResponseDto>> getAgeFortune() {
-        List<AgeResponseDto> response = ageFortuneService.getFortune(null);
-        return ResponseEntity.ok(response);
+        List<AgeResponseDto> fortunes = ageFortuneStore.get();
+
+        if (fortunes == null || fortunes.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content
+        }
+
+        return ResponseEntity.ok(fortunes);
     }
 
     @Operation(summary = "꿈 해몽")
