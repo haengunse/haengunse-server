@@ -2,7 +2,6 @@ package fortune.haengunseserver.domain.fortune.controller;
 
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
-import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneService;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;

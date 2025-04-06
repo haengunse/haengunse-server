@@ -1,23 +1,10 @@
 package fortune.haengunseserver.domain.fortune.service.starfortune;
 
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
+import fortune.haengunseserver.domain.fortune.service.FortuneStore;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
-
 @Service
-public class StarFortuneStore {
+public class StarFortuneStore extends FortuneStore<StarResponseDto> {
 
-    private static final AtomicReference<List<StarResponseDto>> starFortunes =
-            new AtomicReference<>(Collections.emptyList());
-
-    public void update(List<StarResponseDto> newFortunes) {
-        starFortunes.set(Collections.unmodifiableList(newFortunes));
-    }
-
-    public List<StarResponseDto> get() {
-        return starFortunes.get();
-    }
 }

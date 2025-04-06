@@ -3,14 +3,12 @@ package fortune.haengunseserver.domain.fortune.scheduler;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneService;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
-import groovy.util.logging.Slf4j;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class StarScheduler {
