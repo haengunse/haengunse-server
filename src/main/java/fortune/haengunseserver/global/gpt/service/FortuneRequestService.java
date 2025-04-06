@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.fortune.service;
+package fortune.haengunseserver.global.gpt.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.model.ChatResponse;

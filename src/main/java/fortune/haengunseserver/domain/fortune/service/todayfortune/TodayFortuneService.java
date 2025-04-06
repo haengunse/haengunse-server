@@ -3,7 +3,7 @@ package fortune.haengunseserver.domain.fortune.service.todayfortune;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
-import fortune.haengunseserver.domain.fortune.service.FortuneRequestService;
+import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
