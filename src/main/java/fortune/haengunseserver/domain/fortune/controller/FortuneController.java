@@ -4,7 +4,6 @@ import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeRespons
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
-import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
@@ -26,7 +25,6 @@ import java.util.List;
 @RequestMapping("/api/fortune")
 public class FortuneController {
 
-    private final ManseCalculator manseCalculator;
     private final TodayFortuneService todayLuckyService;
     private final StarFortuneStore starFortuneStore;
     private final AgeFortuneStore ageFortuneStore;
@@ -92,15 +90,5 @@ public class FortuneController {
     @PostMapping("/dream")
     public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {
         return ResponseEntity.ok().build();
-    }
-
-    // 만세력 계산 테스트용 API
-    @GetMapping("/calculate")
-    public String calculateManse(
-            @RequestParam String birthDate,
-            @RequestParam boolean isSolar,
-            @RequestParam String birthTime
-    ) {
-        return manseCalculator.calculateManse(birthDate, isSolar, birthTime);
     }
 }
