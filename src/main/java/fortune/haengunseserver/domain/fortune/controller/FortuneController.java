@@ -3,12 +3,11 @@ package fortune.haengunseserver.domain.fortune.controller;
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneService;
-import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneService;
+import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
-import fortune.haengunseserver.domain.fortune.dto.response.FortuneMatchResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.TodayFortuneService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +28,7 @@ public class FortuneController {
 
     private final ManseCalculator manseCalculator;
     private final TodayFortuneService todayLuckyService;
-    private final StarFortuneService starFortuneService;
+    private final StarFortuneStore starFortuneStore;
     private final AgeFortuneService ageFortuneService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
@@ -55,8 +54,13 @@ public class FortuneController {
     )
     @GetMapping("/star")
     public ResponseEntity<List<StarResponseDto>> getStarFortune() {
-        List<StarResponseDto> response = starFortuneService.getFortune(null);
-        return ResponseEntity.ok(response);
+        List<StarResponseDto> fortunes = starFortuneStore.get();
+
+        if (fortunes == null || fortunes.isEmpty()) {
+            return ResponseEntity.noContent().build(); // 204 No Content
+        }
+
+        return ResponseEntity.ok(fortunes);
     }
 
     @Operation(summary = "띠 운세 조회")

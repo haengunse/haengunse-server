@@ -16,7 +16,8 @@ import java.util.List;
 @Service
 public class StarFortuneService extends FortuneRequestService<Void, List<StarResponseDto>> {
 
-    public StarFortuneService(OpenAiChatModel chatModel) {
+
+    public StarFortuneService(OpenAiChatModel chatModel, StarFortuneStore starFortuneStore) {
         super(chatModel);
     }
 
