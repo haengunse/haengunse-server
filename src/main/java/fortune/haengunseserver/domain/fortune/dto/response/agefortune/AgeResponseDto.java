@@ -8,7 +8,7 @@ import lombok.Data;
 @Schema(description = "오늘의 띠 운세 결과 응답")
 public class AgeResponseDto {
 
-    @Schema(description = "띠 이름", example = "뱀띠")
+    @Schema(description = "띠 이름")
     private String ageName;
 
     @Schema(description = "결과 메세지 및 띠 매치")

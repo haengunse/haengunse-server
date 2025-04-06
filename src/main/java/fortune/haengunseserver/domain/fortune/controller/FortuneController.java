@@ -2,6 +2,7 @@ package fortune.haengunseserver.domain.fortune.controller;
 
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
+import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneService;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneService;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.ManseCalculator;
 import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
@@ -29,6 +30,7 @@ public class FortuneController {
     private final ManseCalculator manseCalculator;
     private final TodayFortuneService todayLuckyService;
     private final StarFortuneService starFortuneService;
+    private final AgeFortuneService ageFortuneService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -68,7 +70,8 @@ public class FortuneController {
     )
     @GetMapping("/age")
     public ResponseEntity<List<AgeResponseDto>> getAgeFortune() {
-        return ResponseEntity.ok().build();
+        List<AgeResponseDto> response = ageFortuneService.getFortune(null);
+        return ResponseEntity.ok(response);
     }
 
     @Operation(summary = "꿈 해몽")
