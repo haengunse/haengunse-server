@@ -1,0 +1,13 @@
+package fortune.haengunseserver.domain.message.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Schema(description = "질문뽑기/포춘쿠키 응답")
+public class MessageResponseDto {
+
+    private String message;
+}
