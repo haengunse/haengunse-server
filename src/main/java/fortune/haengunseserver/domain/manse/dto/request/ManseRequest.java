@@ -21,8 +21,8 @@ public class ManseRequest {
     private String birthTime;
 
     @Schema(description = "성별 (M/F)", example = "M")
-    private String gender; // 여기선 안 받아도 됨
+    private String gender;
 
     @Schema(description = "사용자 이름", example = "홍길동")
-    private String name; // 여기선 안 받아도 됨
+    private String name;
 }

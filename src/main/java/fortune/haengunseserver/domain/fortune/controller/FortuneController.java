@@ -4,9 +4,9 @@ import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeRespons
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneStore;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
-import fortune.haengunseserver.domain.fortune.dto.request.DreamRequest;
+import fortune.haengunseserver.domain.fortune.dto.request.dream.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
-import fortune.haengunseserver.domain.fortune.dto.response.DreamResponse;
+import fortune.haengunseserver.domain.fortune.dto.response.dream.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import fortune.haengunseserver.domain.fortune.service.todayfortune.TodayFortuneService;
 import io.swagger.v3.oas.annotations.Operation;

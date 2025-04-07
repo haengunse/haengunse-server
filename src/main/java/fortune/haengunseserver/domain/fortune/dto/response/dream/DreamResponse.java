@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.fortune.dto.response;
+package fortune.haengunseserver.domain.fortune.dto.response.dream;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
