@@ -29,8 +29,11 @@ public class DreamService extends FortuneRequestService<List<String>, DreamRespo
         if (questions.size() == 1) {
             contentBuilder.append(String.format("%s\n\n", questions.get(0)));
         } else {
-            for (int i = 0; i < questions.size(); i++) {
-                contentBuilder.append(String.format("꿈 %d:\n%s\n\n", i + 1, questions.get(i)));
+            contentBuilder.append(String.format("기존 꿈:\n%s", questions.get(0)));
+            if (questions.size() == 2) {
+                contentBuilder.append(String.format("\n\n추가 꿈:\n%s\n\n", questions.get(1)));
+            } else if(questions.size() == 3) {
+                contentBuilder.append(String.format(", \n%s\n\n 추가 꿈 :\n%s\n\n", questions.get(1), questions.get(2)));
             }
         }
 
@@ -38,8 +41,11 @@ public class DreamService extends FortuneRequestService<List<String>, DreamRespo
         [답변 규칙]
         - 존댓말로 답변할 것
         - 종합해석만 대답할 것 (너무 길지 않게 부탁해요)
+        - 모두 하나의 꿈으로 생각하되, 추가 꿈에 대한 답변을 해주세요.
         - "interpretation" : "꿈해석" 형식으로 답해주세요.
         """);
+
+        System.out.println(contentBuilder.toString());
 
         return new Prompt(contentBuilder.toString());
     }
