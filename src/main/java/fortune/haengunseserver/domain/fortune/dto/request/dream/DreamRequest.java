@@ -14,5 +14,5 @@ import java.util.List;
 public class DreamRequest {
 
     @Schema(description = "사용자의 질문", example = "오늘 돼지꿈 꿨는데 무슨 뜻이야?")
-    private String question;
+    private List<String> question;
 }

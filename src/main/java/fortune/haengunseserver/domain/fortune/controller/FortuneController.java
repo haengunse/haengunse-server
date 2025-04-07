@@ -3,8 +3,8 @@ package fortune.haengunseserver.domain.fortune.controller;
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.service.agefortune.AgeFortuneStore;
+import fortune.haengunseserver.domain.fortune.service.dream.DreamService;
 import fortune.haengunseserver.domain.fortune.service.starfortune.StarFortuneStore;
-import fortune.haengunseserver.domain.fortune.dto.request.dream.DreamRequest;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.dream.DreamResponse;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
@@ -28,6 +28,7 @@ public class FortuneController {
     private final TodayFortuneService todayLuckyService;
     private final StarFortuneStore starFortuneStore;
     private final AgeFortuneStore ageFortuneStore;
+    private final DreamService dreamService;
 
     @Operation( summary = "오늘의 운세 조회", description = "사용자의 사주 정보를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
@@ -88,7 +89,8 @@ public class FortuneController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = DreamResponse.class))
     )
     @PostMapping("/dream")
-    public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody DreamRequest request) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<DreamResponse> getDreamLucky(@RequestBody List<String> request) {
+        DreamResponse response = dreamService.getFortune(request);
+        return ResponseEntity.ok(response);
     }
 }
