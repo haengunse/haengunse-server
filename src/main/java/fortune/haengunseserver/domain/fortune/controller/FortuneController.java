@@ -29,7 +29,7 @@ public class FortuneController {
     private final StarFortuneStore starFortuneStore;
     private final AgeFortuneStore ageFortuneStore;
 
-    @Operation( summary = "오늘의 운세 조회", description = "사용자의 정보 및 사주를 기반으로 오늘의 운세를 반환")
+    @Operation( summary = "오늘의 운세 조회", description = "사용자의 사주 정보를 기반으로 오늘의 운세를 반환")
     @ApiResponse(
             responseCode = "200",
             description = "운세 데이터 정상 반환",
