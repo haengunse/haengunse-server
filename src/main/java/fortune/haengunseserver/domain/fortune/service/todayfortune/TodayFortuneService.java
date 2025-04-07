@@ -34,75 +34,62 @@ public class TodayFortuneService extends FortuneRequestService<TodayFortuneReque
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
         String content = String.format("""
-                        당신은 유능한 역술가입니다.
-                        사주를 기반으로 한 오늘의 운세를 볼 예정입니다.
-
-                        사용자의 정보는 다음과 같습니다:
-                                        
-                        - 이름: %s
-                        - 성별: %s
-                        - 생년월일: %s (%s)
-                        - 태어난 시간: %s
-                        - 오늘의 날짜: %s
-
-                        만세력은 다음과 같습니다:
-                                        
-                        %s
-
-                        사용자의 정보와 만세력을 참고하여 오늘의 운세를 봐주세요.
-
-                        Response로는 다음을 보내주세요:
-                                        
-                        - 총 점수 
-                        - 총운해석
-                        - 재물운
-                        - 연애운
-                        - 건강운
-                        - 학업운
-                        - 직장운
-                        - 운세 결과에 기반한 간단한 한 줄 조언
-
-                        결과를 생성할 때는 다음의 규칙에 맞게 생성해 주세요:
+                        다음은 사용자(성별: %s)의 사주 만세력 정보입니다:
                         
-                        1. 총 점수는 100점 만점으로 점수를 반환해주세요. 
-                        2. 총 점수를 계산할 때는 운세 항목 및 총운 해석에 기반하여 점수를 채점해 주세요.
-                        3. 각 운세 항목(재물운, 연애운, 건강운, 학업운, 직장운)은 해석과 점수를 반환해야합니다.
-                        3-1. 운세 항목 별로 6줄 이상의 문장으로 대답해주세요. 
-                        3-2. 항복 별 해석을 생성할 때, 사용자의 정보와 만세력을 참고하여 작성해주세요.
-                        3-3. 해석에 포함되어야 할 내용은 다음과 같습니다: 오늘의 운세 흐름, 유의할 점
-                        4. 다음과 같은 형식(json)으로 반환해주세요:
-
+                        %s
+                        
+                        오늘의 날짜는 %s 입니다.
+                        오늘 일진이 사용자의 사주에 미치는 영향을 함께 고려해 주세요.               
+                                                
+                        <운세 분석 항목>
+                        - 총 점수: 100점 만점 기준으로 채점합니다.
+                        - 총운 해석: 오늘 하루의 전체적인 흐름을 서술해 주세요.
+                        - 각 항목별 운세:
+                            - 재물운
+                            - 연애운
+                            - 건강운
+                            - 학업운
+                            - 직장운
+                                                
+                        각 항목별로 아래 규칙에 따라 작성해 주세요:
+                                                
+                        [작성 규칙]
+                        1. 각 항목은 **5점 만점 기준으로 점수를 매깁니다**, 그리고 해석(description)을 포함합니다.
+                        2. description은 6줄 이상의 서술형 문장으로 작성하며, 다음 내용을 반드시 포함합니다:
+                            - 오늘의 운세 흐름
+                            - 유의할 점 또는 조언
+                            - 사주 내 천간지지의 충, 형, 합 등 관계 기반 해석
+                        3. 총 점수는 항목 점수를 기반으로 산정하되, 총운 흐름을 고려하여 약간의 가중치를 적용해 주세요.
+                        4. 가장 마지막에는 오늘 하루를 위한 짧고 간단한 조언 한 줄을 `dailyMessage` 필드로 전달해 주세요.
+                                                
+                        최종 결과는 아래 JSON 형식으로 반환해 주세요:
+                                                
                         {
-                            "totalScore": ,
-                            "generalFortune": "...",
-                            "wealthFortune": {
-                                "score": ,
-                                "description": "..."
-                            },
-                            "loveFortune": {
-                                "score": ,
-                                "description": "..."
-                            },
-                            "healthFortune": {
-                                "score": ,
-                                "description": "..."
-                            },
-                            "studyFortune": {
-                                "score": ,
-                                "description": "..."
-                            },
-                            "careerFortune": {
-                                "score": ,
-                                "description": "..."
-                            },
-                            "dailyMessage": ".." ,
+                          "totalScore": ,
+                          "generalFortune": "...",
+                          "wealthFortune": {
+                            "score": ,
+                            "description": "..."
+                          },
+                          "loveFortune": {
+                            "score": ,
+                            "description": "..."
+                          },
+                          "healthFortune": {
+                            "score": ,
+                            "description": "..."
+                          },
+                          "studyFortune": {
+                            "score": ,
+                            "description": "..."
+                          },
+                          "careerFortune": {
+                            "score": ,
+                            "description": "..."
+                          },
+                          "dailyMessage": "..."
                         }
                         """,
-                input.getName(),
-                input.getGender(),
-                input.getBirthDate(),
-                input.isSolar() ? "양력" : "음력",
-                input.getBirthTime(),
                 todayDate,
                 mansaeInfo
         );
