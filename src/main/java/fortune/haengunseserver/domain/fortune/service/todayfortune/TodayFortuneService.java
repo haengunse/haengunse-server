@@ -3,6 +3,7 @@ package fortune.haengunseserver.domain.fortune.service.todayfortune;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
+import fortune.haengunseserver.domain.manse.service.ManseCalculator;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -20,17 +21,14 @@ import java.time.format.DateTimeFormatter;
 @Service
 public class TodayFortuneService extends FortuneRequestService<TodayFortuneRequest, TodayFortuneResponse> {
 
-    private final ManseCalculator manse;
-
     public TodayFortuneService(OpenAiChatModel chatModel, ManseCalculator manse) {
         super(chatModel);
-        this.manse = manse;
     }
 
     //  사용자의 생년월일을 만세력으로 변환하여 GPT에 요청할 프롬프트 생성
     @Override
     public Prompt generatePrompt(TodayFortuneRequest input) {
-        String mansaeInfo = manse.calculateManse(input.getBirthDate(), input.isSolar(), input.getBirthTime());
+        String mansaeInfo = null;
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
         String content = String.format("""

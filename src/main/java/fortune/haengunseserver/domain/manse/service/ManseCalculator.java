@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.fortune.service.todayfortune;
+package fortune.haengunseserver.domain.manse.service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +8,8 @@ import fortune.haengunseserver.domain.fortune.enums.HourBranch;
 import fortune.haengunseserver.domain.fortune.enums.Jiji;
 import fortune.haengunseserver.domain.fortune.enums.SolarTerm;
 import fortune.haengunseserver.domain.fortune.enums.Tenkan;
+import fortune.haengunseserver.domain.manse.dto.request.ManseRequest;
+import fortune.haengunseserver.domain.manse.dto.response.ManseResponse;
 import fortune.haengunseserver.global.calendar.service.CalendarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,18 @@ public class ManseCalculator {
     private static final LocalDate BASE_DATE = LocalDate.of(1900, 1, 1);
 
     // 사주 계산
-    public String calculateManse(String birthDate, boolean isSolar, String birthTime) {
+    public ManseResponse calculateManse(ManseRequest input) {
+        String birthDate = input.getBirthDate();
+        boolean isSolar = input.isSolar();
+        String birthTime = input.getBirthTime();
+
         LocalDate solDate;
 
         if (isSolar) {
             solDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         } else {
             LocalDate lunDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            System.out.println("lunDate = " + lunDate);
+
             String lunYear = String.valueOf(lunDate.getYear());
             String lunMonth = pad2(lunDate.getMonthValue()); // "09"
             String lunDay = pad2(lunDate.getDayOfMonth()); // "01" ~ "31"
@@ -47,10 +53,13 @@ public class ManseCalculator {
         String hourGanZhi = birthTime.equals("모름")
                 ? "출생 시각 미확인" : getHourGanZhi(solDate, birthTime);
 
-        return String.format(
+
+        String manseInfo = String.format(
                 "연주: %s\n월주: %s\n일주: %s\n시주: %s",
                 yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
         );
+
+        return new ManseResponse(manseInfo, input.getGender(), input.getName());
     }
 
     public static String pad2(int n) {
