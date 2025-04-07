@@ -2,7 +2,9 @@ package fortune.haengunseserver.domain.fortune.service.dream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.response.dream.DreamResponse;
+import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
+import fortune.haengunseserver.global.gpt.utils.ChatResponseParser;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -42,30 +44,14 @@ public class DreamService extends FortuneRequestService<List<String>, DreamRespo
         - 존댓말로 답변할 것
         - 종합해석만 대답할 것 (너무 길지 않게 부탁해요)
         - 모두 하나의 꿈으로 생각하되, 추가 꿈에 대한 답변을 해주세요.
-        - "interpretation" : "꿈해석" 형식으로 답해주세요.
+        - "interpretation" : ".." 형식으로 답해주세요.
         """);
-
-        System.out.println(contentBuilder.toString());
 
         return new Prompt(contentBuilder.toString());
     }
 
-
     @Override
     protected DreamResponse processResponse(ChatResponse response) {
-        String raw = response.getResult().getOutput().getText();
-
-        // JSON 태그 제거: ```json\n{...}\n```
-        String cleanJson = raw
-                .replaceAll("(?s)^```json\\s*", "") // 시작 백틱 제거
-                .replaceAll("\\s*```$", "")         // 종료 백틱 제거
-                .trim();
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cleanJson, DreamResponse.class);
-        } catch (IOException e) {
-            throw new RuntimeException("GPT 응답 파싱 실패", e);
-        }
+        return ChatResponseParser.parse(response, DreamResponse.class);
     }
 }

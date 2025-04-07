@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
+import fortune.haengunseserver.global.gpt.utils.ChatResponseParser;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -101,19 +102,6 @@ public class TodayFortuneService extends FortuneRequestService<TodayFortuneReque
      */
     @Override
     protected TodayFortuneResponse processResponse(ChatResponse response) {
-        String raw = response.getResult().getOutput().getText();
-
-        // JSON 태그 제거: ```json\n{...}\n```
-        String cleanJson = raw
-                .replaceAll("(?s)^```json\\s*", "") // 시작 백틱 제거
-                .replaceAll("\\s*```$", "")         // 종료 백틱 제거
-                .trim();
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(cleanJson, TodayFortuneResponse.class);
-        } catch (IOException e) {
-            throw new RuntimeException("GPT 응답 파싱 실패", e);
-        }
+        return ChatResponseParser.parse(response, TodayFortuneResponse.class);
     }
 }
