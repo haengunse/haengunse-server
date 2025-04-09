@@ -6,6 +6,10 @@ build/
 !**/src/test/**/build/
 application-dev.yml
 
+# CSV 파일 무시
+src/main/resources/data/
+
+
 ### STS ###
 .apt_generated
 .classpath
