@@ -2,6 +2,7 @@ package fortune.haengunseserver.domain.message.controller;
 
 import fortune.haengunseserver.domain.message.dto.ItemResponseDto;
 import fortune.haengunseserver.domain.message.dto.MessageResponseDto;
+import fortune.haengunseserver.domain.message.service.MessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/message")
 public class MessageController {
 
+    private final MessageService messageService;
+
     @Operation(summary = "질문 뽑기")
     @ApiResponse(
             responseCode = "200",
@@ -24,8 +27,9 @@ public class MessageController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class))
     )
     @GetMapping("/random")
-    public ResponseEntity<MessageResponseDto> getRandomMessage() {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<MessageResponseDto> getRandomQuestion() {
+        MessageResponseDto randomQuestion = messageService.getRandomQuestion();
+        return ResponseEntity.ok(randomQuestion);
     }
 
     @Operation(summary = "포춘쿠키 뽑기")
