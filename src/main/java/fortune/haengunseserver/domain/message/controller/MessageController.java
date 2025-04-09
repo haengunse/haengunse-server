@@ -40,7 +40,8 @@ public class MessageController {
     )
     @GetMapping("/cookie")
     public ResponseEntity<MessageResponseDto> getFortuneCookie() {
-        return ResponseEntity.ok(null);
+        MessageResponseDto fortuneCookie = messageService.getFortuneCookie();
+        return ResponseEntity.ok(fortuneCookie);
     }
 
     @Operation(summary = "행운의 아이템 뽑기")

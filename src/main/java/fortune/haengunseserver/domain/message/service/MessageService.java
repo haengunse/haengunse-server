@@ -43,4 +43,33 @@ public class MessageService {
 
         return new MessageResponseDto(randomQuestion);
     }
+
+    public MessageResponseDto getFortuneCookie() {
+        List<String> fortunes = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(new ClassPathResource("/data/fortune_cookie.csv").getInputStream(), StandardCharsets.UTF_8))) {
+
+            String line;
+            boolean isFirstLine = true;
+            while((line = br.readLine()) != null) {
+                if(isFirstLine) {
+                    isFirstLine = false; // 헤더는 건너뜀
+                    continue;
+                }
+                fortunes.add(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (fortunes.isEmpty()) {
+            return new MessageResponseDto();
+        }
+
+        Random random = new Random();
+        String fortuneCookie = fortunes.get(random.nextInt(fortunes.size()));
+
+        return new MessageResponseDto(fortuneCookie);
+    }
 }
