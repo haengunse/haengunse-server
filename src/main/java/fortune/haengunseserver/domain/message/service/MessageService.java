@@ -16,60 +16,43 @@ import java.util.Random;
 public class MessageService {
 
     public MessageResponseDto getRandomQuestion() {
-        List<String> questions = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new ClassPathResource("/data/question_list.csv").getInputStream(), StandardCharsets.UTF_8))) {
-
-            String line;
-            boolean isFirstLine = true;
-            while((line = br.readLine()) != null) {
-                if(isFirstLine) {
-                    isFirstLine = false; // 헤더는 건너뜀
-                    continue;
-                }
-                questions.add(line.replaceAll("^\"|\"$", "")); // 따옴표 제거
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (questions.isEmpty()) {
-            return new MessageResponseDto();
-        }
-
-        Random random = new Random();
-        String randomQuestion = questions.get(random.nextInt(questions.size()));
-
-        return new MessageResponseDto(randomQuestion);
+        List<String> questions = loadCsv("/data/question_list.csv", true);
+        return questions.isEmpty() ? new MessageResponseDto() :
+                new MessageResponseDto(getRandomItem(questions));
     }
 
     public MessageResponseDto getFortuneCookie() {
-        List<String> fortunes = new ArrayList<>();
+        List<String> fortunes = loadCsv("/data/fortune_cookie.csv", false);
+        return fortunes.isEmpty() ? new MessageResponseDto() :
+                new MessageResponseDto(getRandomItem(fortunes));
+    }
+
+    // csv 파일 읽기
+    private List<String> loadCsv(String filePath, boolean stripQuotes) {
+        List<String> result = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(
-                new InputStreamReader(new ClassPathResource("/data/fortune_cookie.csv").getInputStream(), StandardCharsets.UTF_8))) {
+                new InputStreamReader(new ClassPathResource(filePath).getInputStream(), StandardCharsets.UTF_8))) {
 
             String line;
-            boolean isFirstLine = true;
-            while((line = br.readLine()) != null) {
-                if(isFirstLine) {
-                    isFirstLine = false; // 헤더는 건너뜀
+            boolean isFirstLine = true; // 헤더는 안 읽음
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) {
+                    isFirstLine = false;
                     continue;
                 }
-                fortunes.add(line);
+                result.add(stripQuotes ? line.replaceAll("^\"|\"$", "") : line);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        if (fortunes.isEmpty()) {
-            return new MessageResponseDto();
-        }
+        return result;
+    }
 
-        Random random = new Random();
-        String fortuneCookie = fortunes.get(random.nextInt(fortunes.size()));
-
-        return new MessageResponseDto(fortuneCookie);
+    // csv 파일에서 랜덤으로 뽑아오기
+    private String getRandomItem(List<String> list) {
+        return list.get(new Random().nextInt(list.size()));
     }
 }

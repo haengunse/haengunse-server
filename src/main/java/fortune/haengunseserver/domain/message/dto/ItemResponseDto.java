@@ -22,4 +22,7 @@ public class ItemResponseDto {
 
     @Schema(description = "행운의 물건")
     private String object;
+
+    @Schema(description = "행운의 음식")
+    private String food;
 }
