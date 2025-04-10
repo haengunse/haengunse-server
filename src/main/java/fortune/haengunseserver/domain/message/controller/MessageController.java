@@ -51,7 +51,8 @@ public class MessageController {
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = ItemResponseDto.class))
     )
     @GetMapping("/item")
-    public ResponseEntity<ItemResponseDto> getItem() {
-        return ResponseEntity.ok(null);
+    public ResponseEntity<ItemResponseDto> getLuckyItem() {
+        ItemResponseDto luckyItem = messageService.getLuckyItem();
+        return ResponseEntity.ok(luckyItem);
     }
 }

@@ -3,11 +3,13 @@ package fortune.haengunseserver.domain.message.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "행운의 아이템 응답")
 public class ItemResponseDto {
 
@@ -24,5 +26,5 @@ public class ItemResponseDto {
     private String object;
 
     @Schema(description = "행운의 음식")
-    private String food;
+    private String meal;
 }
