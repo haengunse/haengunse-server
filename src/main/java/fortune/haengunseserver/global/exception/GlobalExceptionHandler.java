@@ -1,12 +1,14 @@
 package fortune.haengunseserver.global.exception;
 
 import fortune.haengunseserver.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
