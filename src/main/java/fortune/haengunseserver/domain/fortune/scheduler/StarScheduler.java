@@ -18,11 +18,25 @@ public class StarScheduler {
 
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void updateStarFortunesDaily() {
-        try {
-            List<StarResponseDto> fortunes = starFortuneService.getFortune(null);
-            starFortuneStore.update(fortunes);
-        } catch (Exception e) {
-            System.out.println("저장 실패");
+
+        int maxRetries = 3;
+        int delayMillis = 10000; // 10초 후 재시도
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                List<StarResponseDto> fortunes = starFortuneService.getFortune(null); // 인터페이스 호출
+                starFortuneStore.update(fortunes); // 저장소 업데이트
+                return;
+            } catch (Exception e) {
+                if (attempt < maxRetries) {
+                    try {
+                        Thread.sleep(delayMillis); // 재시도 전 대기
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+            }
         }
     }
 }

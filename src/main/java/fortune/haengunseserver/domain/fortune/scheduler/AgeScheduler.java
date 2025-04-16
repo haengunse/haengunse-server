@@ -18,11 +18,25 @@ public class AgeScheduler {
 
     @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
     public void updateAgeFortune() {
-        try {
-            List<AgeResponseDto> fortunes = ageFortuneService.getFortune(null);
-            ageFortuneStore.update(fortunes);
-        } catch (Exception e) {
-            System.out.println("저장 실패");
+
+        int maxRetries = 3;
+        int delayMillis = 10000; // 10초 후 재시도
+
+        for (int attempt = 1; attempt <= maxRetries; attempt++) {
+            try {
+                List<AgeResponseDto> fortunes = ageFortuneService.getFortune(null);
+                ageFortuneStore.update(fortunes);
+                return;
+            } catch (Exception e) {
+                if (attempt < maxRetries) {
+                    try {
+                        Thread.sleep(delayMillis);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
         }
     }
 }
