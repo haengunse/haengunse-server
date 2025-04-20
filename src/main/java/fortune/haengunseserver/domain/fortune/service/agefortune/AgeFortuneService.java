@@ -1,7 +1,6 @@
 package fortune.haengunseserver.domain.fortune.service.agefortune;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import fortune.haengunseserver.global.gpt.utils.ChatResponseParser;
