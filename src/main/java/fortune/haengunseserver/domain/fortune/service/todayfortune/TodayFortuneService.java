@@ -1,6 +1,5 @@
 package fortune.haengunseserver.domain.fortune.service.todayfortune;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.domain.fortune.dto.request.todayfortune.TodayFortuneRequest;
 import fortune.haengunseserver.domain.fortune.dto.response.todayfortune.TodayFortuneResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
@@ -8,9 +7,9 @@ import fortune.haengunseserver.global.gpt.utils.ChatResponseParser;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -32,69 +31,43 @@ public class TodayFortuneService extends FortuneRequestService<TodayFortuneReque
         String gender = input.getGender();
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
-        String content = String.format("""
-                        다음은 사용자(성별: %s)의 사주 만세력 정보입니다:
-                        
-                        %s
-                        
-                        오늘의 날짜는 %s 입니다.
-                        오늘 일진이 사용자의 사주에 미치는 영향을 함께 고려해 주세요.
-                                                
-                        <운세 분석 항목>
-                        - 총 점수: 100점 만점 기준으로 채점합니다.
-                        - 총운 해석: 오늘 하루의 전체적인 흐름을 서술해 주세요.
-                        - 각 항목별 운세:
-                            - 재물운
-                            - 연애운
-                            - 건강운
-                            - 학업운
-                            - 직장운
-                                                
-                        각 항목별로 아래 규칙에 따라 작성해 주세요:
-                                                
-                        [작성 규칙]
-                        1. 각 항목은 5점 만점 기준으로 점수를 매깁니다 (소수점 한 자리까지도 가능합니다), 그리고 해석(description)을 포함합니다.
-                        2. description은 6줄 이상의 서술형 문장으로 작성하며, 다음 내용을 반드시 포함합니다:
-                            - 오늘의 운세 흐름
-                            - 유의할 점 또는 조언
-                            - 사주 내 천간지지의 충, 형, 합 등 관계 기반 해석
-                        3. 총 점수는 항목 점수를 기반으로 산정하되, 총운 흐름을 고려하여 약간의 가중치를 적용해 주세요.
-                        4. 가장 마지막에는 오늘 하루를 위한 짧고 간단한 조언(25자 이하)을 `dailyMessage` 필드로 전달해 주세요.
-                                                
-                        최종 결과는 아래 JSON 형식으로 반환해 주세요:
-                                                
-                        {
-                          "totalScore": ,
-                          "generalFortune": "...",
-                          "wealthFortune": {
-                            "score": ,
-                            "description": "..."
-                          },
-                          "loveFortune": {
-                            "score": ,
-                            "description": "..."
-                          },
-                          "healthFortune": {
-                            "score": ,
-                            "description": "..."
-                          },
-                          "studyFortune": {
-                            "score": ,
-                            "description": "..."
-                          },
-                          "careerFortune": {
-                            "score": ,
-                            "description": "..."
-                          },
-                          "dailyMessage": "..."
-                        }
-                        """,
-                gender,
-                manseInfo,
-                todayDate
-        );
 
-        return new Prompt(content);
+        String content = String.format("""
+            [사주 정보]
+            성별: %s
+            만세력: %s
+            오늘 날짜: %s
+
+            오늘 일진이 사주에 미치는 영향을 분석하여 아래 항목에 대해 운세를 분석해주세요:
+
+            - 총 점수 (100점 만점)
+            - 총운 해석 (하루의 전체적인 흐름)
+            - 재물운, 연애운, 건강운, 학업운, 직장운
+
+            [작성 규칙]
+            - 각 항목 점수는 5점 만점 (소수점 1자리까지)
+            - 각 항목 해석은 4줄 이상의 서술형 문장으로 작성 (오늘 흐름, 주의할 점, 충/형/합 등 사주 기반 해석 포함)
+            - 마지막에 25자 이하의 짧은 조언을 'dailyMessage' 필드로 포함
+
+            [응답 형식 (JSON)]으로 응답해 주세요 (설명 없이 JSON만 출력):
+
+            {
+                "totalScore": ,
+                "generalFortune": "...",
+                "wealthFortune": {"score": , "description": "..."},
+                "loveFortune": {"score": , "description": "..."},
+                "healthFortune": {"score": , "description": "..."},
+                "studyFortune": {"score": , "description": "..."},
+                "careerFortune": {"score": , "description": "..."},
+                "dailyMessage": "..."
+            }
+            """, gender, manseInfo, todayDate);
+
+        OpenAiChatOptions chatOptions = new OpenAiChatOptions();
+        chatOptions.setMaxTokens(800);
+        chatOptions.setTemperature(0.7);
+
+        return new Prompt(content, chatOptions);
     }
 
     /**
