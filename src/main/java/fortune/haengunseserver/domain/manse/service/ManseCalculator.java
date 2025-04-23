@@ -4,10 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import fortune.haengunseserver.domain.fortune.enums.HourBranch;
-import fortune.haengunseserver.domain.fortune.enums.Jiji;
-import fortune.haengunseserver.domain.fortune.enums.SolarTerm;
-import fortune.haengunseserver.domain.fortune.enums.Tenkan;
+import fortune.haengunseserver.domain.manse.enums.HourBranch;
+import fortune.haengunseserver.domain.manse.enums.Jiji;
+import fortune.haengunseserver.domain.manse.enums.SolarTerm;
+import fortune.haengunseserver.domain.manse.enums.Tenkan;
 import fortune.haengunseserver.domain.manse.dto.request.ManseRequest;
 import fortune.haengunseserver.domain.manse.dto.response.ManseResponse;
 import fortune.haengunseserver.global.calendar.service.CalendarService;
