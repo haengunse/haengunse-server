@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.fortune.today.dto.response.todayfortune;
+package fortune.haengunseserver.domain.fortune.today.dto.response.sajufortune;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

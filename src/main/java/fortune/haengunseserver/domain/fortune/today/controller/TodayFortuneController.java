@@ -5,10 +5,10 @@ import fortune.haengunseserver.domain.fortune.today.dto.response.starfortune.Sta
 import fortune.haengunseserver.domain.fortune.today.service.agefortune.AgeFortuneStore;
 import fortune.haengunseserver.domain.fortune.today.service.dream.DreamService;
 import fortune.haengunseserver.domain.fortune.today.service.starfortune.StarFortuneStore;
-import fortune.haengunseserver.domain.fortune.today.dto.request.todayfortune.TodayFortuneRequest;
+import fortune.haengunseserver.domain.fortune.common.dto.request.SajuRequest;
 import fortune.haengunseserver.domain.fortune.today.dto.response.dream.DreamResponse;
-import fortune.haengunseserver.domain.fortune.today.dto.response.todayfortune.TodayFortuneResponse;
-import fortune.haengunseserver.domain.fortune.today.service.todayfortune.TodayFortuneService;
+import fortune.haengunseserver.domain.fortune.today.dto.response.sajufortune.TodaySajuResponse;
+import fortune.haengunseserver.domain.fortune.today.service.todaysaju.TodaySajuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/api/fortune/today")
 public class TodayFortuneController {
 
-    private final TodayFortuneService todayLuckyService;
+    private final TodaySajuService todayLuckyService;
     private final StarFortuneStore starFortuneStore;
     private final AgeFortuneStore ageFortuneStore;
     private final DreamService dreamService;
@@ -34,11 +34,11 @@ public class TodayFortuneController {
     @ApiResponse(
             responseCode = "200",
             description = "운세 데이터 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodayFortuneResponse.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TodaySajuResponse.class))
     )
     @PostMapping("/saju")
-    public ResponseEntity<TodayFortuneResponse> getTodayFortune(@RequestBody TodayFortuneRequest request) {
-        TodayFortuneResponse response = todayLuckyService.getFortune(request);
+    public ResponseEntity<TodaySajuResponse> getTodaySaju(@RequestBody SajuRequest request) {
+        TodaySajuResponse response = todayLuckyService.getFortune(request);
         return ResponseEntity.ok(response);
     }
 

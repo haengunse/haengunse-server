@@ -1,7 +1,7 @@
-package fortune.haengunseserver.domain.fortune.today.service.todayfortune;
+package fortune.haengunseserver.domain.fortune.today.service.todaysaju;
 
-import fortune.haengunseserver.domain.fortune.today.dto.request.todayfortune.TodayFortuneRequest;
-import fortune.haengunseserver.domain.fortune.today.dto.response.todayfortune.TodayFortuneResponse;
+import fortune.haengunseserver.domain.fortune.common.dto.request.SajuRequest;
+import fortune.haengunseserver.domain.fortune.today.dto.response.sajufortune.TodaySajuResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import fortune.haengunseserver.global.gpt.utils.ChatResponseParser;
 import org.springframework.ai.chat.model.ChatResponse;
@@ -18,15 +18,15 @@ import java.time.format.DateTimeFormatter;
  * FortuneService 인터페이스를 구현하여 운세 조회 기능 제공
  */
 @Service
-public class TodayFortuneService extends FortuneRequestService<TodayFortuneRequest, TodayFortuneResponse> {
+public class TodaySajuService extends FortuneRequestService<SajuRequest, TodaySajuResponse> {
 
-    public TodayFortuneService(OpenAiChatModel chatModel) {
+    public TodaySajuService(OpenAiChatModel chatModel) {
         super(chatModel);
     }
 
     //  사용자의 생년월일을 만세력으로 변환하여 GPT에 요청할 프롬프트 생성
     @Override
-    public Prompt generatePrompt(TodayFortuneRequest input) {
+    public Prompt generatePrompt(SajuRequest input) {
         String manseInfo = input.getManseInfo();
         String gender = input.getGender();
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
@@ -74,7 +74,7 @@ public class TodayFortuneService extends FortuneRequestService<TodayFortuneReque
      * GPT 응답을 처리하여 TodayLuckyResponse 객체로 변환
      */
     @Override
-    protected TodayFortuneResponse processResponse(ChatResponse response) {
-        return ChatResponseParser.parse(response, TodayFortuneResponse.class);
+    protected TodaySajuResponse processResponse(ChatResponse response) {
+        return ChatResponseParser.parse(response, TodaySajuResponse.class);
     }
 }

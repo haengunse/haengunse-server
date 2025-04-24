@@ -1,4 +1,4 @@
-package fortune.haengunseserver.domain.fortune.today.dto.response.todayfortune;
+package fortune.haengunseserver.domain.fortune.today.dto.response.sajufortune;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "오늘의 운세 결과 응답")
-public class TodayFortuneResponse {
+public class TodaySajuResponse {
 
     @Schema(description = "총 운세 점수 (100점 만점)", example = "78")
     private int totalScore;
