@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "오늘의 운세 요청")
+@Schema(description = "운세 요청")
 public class SajuRequest {
 
     @NotBlank(message = "사용자의 만세력 정보를 보내주세요.")
