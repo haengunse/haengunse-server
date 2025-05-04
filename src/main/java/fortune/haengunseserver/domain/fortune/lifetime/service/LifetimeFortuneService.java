@@ -26,7 +26,7 @@ public class LifetimeFortuneService extends FortuneRequestService<SajuRequest, L
         String content = String.format("""
                 [사주 정보]
                 성별: %s
-                사주 구성 (만세력): 
+                만세력: 
                 %s
                             
                 다음 네 가지 항목에 대해 각 항목당 5문장 이상으로 분석해 주세요. 
