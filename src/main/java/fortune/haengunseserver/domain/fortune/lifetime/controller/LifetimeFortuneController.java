@@ -1,6 +1,8 @@
 package fortune.haengunseserver.domain.fortune.lifetime.controller;
 
 import fortune.haengunseserver.domain.fortune.common.dto.request.SajuRequest;
+import fortune.haengunseserver.domain.fortune.lifetime.dto.response.LifetimeSajuResponse;
+import fortune.haengunseserver.domain.fortune.lifetime.service.LifetimeFortuneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,14 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/fortune/lifetime")
 public class LifetimeFortuneController {
 
+    private final LifetimeFortuneService lifetimeFortuneService;
+
     @Operation( summary = "평생운세 조회")
     @ApiResponse(
             responseCode = "200",
             description = "평생운세 정상 반환",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LifetimeFortuneController.class))
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LifetimeSajuResponse.class))
     )
-    @PostMapping("/saju")
-    public ResponseEntity<LifetimeFortuneController> getYearlySaju(@RequestBody SajuRequest request) {
-        return ResponseEntity.ok(null);
+    @PostMapping
+    public ResponseEntity<LifetimeSajuResponse> getLifetimeFortune(@RequestBody SajuRequest request) {
+        LifetimeSajuResponse fortune = lifetimeFortuneService.getFortune(request);
+        return ResponseEntity.ok(fortune);
     }
 }

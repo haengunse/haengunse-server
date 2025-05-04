@@ -32,11 +32,11 @@ public class TodaySajuService extends FortuneRequestService<SajuRequest, TodaySa
         String gender = GenderConverter.toKorean(input.getGender());
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
-
         String content = String.format("""
             [사주 정보]
             성별: %s
-            만세력: %s
+            만세력: 
+            %s
             오늘 날짜: %s
 
             오늘 일진이 사주에 미치는 영향을 분석하여 아래 항목에 대해 운세를 분석해주세요:
