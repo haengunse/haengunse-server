@@ -1,5 +1,6 @@
 package fortune.haengunseserver.global.exception;
 
+import fortune.haengunseserver.global.exception.code.ErrorCode;
 import lombok.Getter;
 
 @Getter

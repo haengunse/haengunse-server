@@ -1,7 +1,7 @@
 package fortune.haengunseserver.domain.fortune.common.util;
 
 import fortune.haengunseserver.global.exception.CustomException;
-import fortune.haengunseserver.global.exception.ErrorCode;
+import fortune.haengunseserver.global.exception.code.ErrorCode;
 
 public class ManseInfoFormatter {
 

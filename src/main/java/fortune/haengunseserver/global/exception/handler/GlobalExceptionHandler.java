@@ -1,5 +1,7 @@
-package fortune.haengunseserver.global.exception;
+package fortune.haengunseserver.global.exception.handler;
 
+import fortune.haengunseserver.global.exception.CustomException;
+import fortune.haengunseserver.global.exception.code.ErrorCode;
 import fortune.haengunseserver.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;

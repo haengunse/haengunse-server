@@ -1,4 +1,4 @@
-package fortune.haengunseserver.global.exception;
+package fortune.haengunseserver.global.exception.code;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
