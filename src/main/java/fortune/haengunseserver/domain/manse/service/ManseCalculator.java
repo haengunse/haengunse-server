@@ -55,9 +55,11 @@ public class ManseCalculator {
 
 
         String manseInfo = String.format(
-                "연주: %s\n월주: %s\n일주: %s\n시주: %s",
+                "%s %s %s %s",
                 yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
         );
+
+        System.out.println(manseInfo);
 
         return new ManseResponse(manseInfo, input.getGender(), input.getName());
     }
@@ -144,10 +146,9 @@ public class ManseCalculator {
 
     // 데이터 포맷하여 결과 반환
     private String formatGanZhi(Tenkan gan, Jiji zhi) {
-        return String.format("%s(%s/%s) %s(%s/%s) [%s%s]",
+        return String.format("%s(%s/%s) %s(%s/%s)",
                 gan.getName(), gan.getElement(), gan.getYinYang(),
-                zhi.getName(), zhi.getElement(), zhi.getYinYang(),
-                gan.getHanja(), zhi.getHanja());
+                zhi.getName(), zhi.getElement(), zhi.getYinYang());
     }
 
 }

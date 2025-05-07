@@ -18,7 +18,7 @@ public enum ErrorCode {
     UNAUTHORIZED_IP(HttpStatus.FORBIDDEN, "등록되지 않은 IP 주소입니다."),
     DEPRECATED_API(HttpStatus.GONE, "해당 API는 더 이상 제공되지 않거나 사용 중지되었습니다."),
     TOO_MANY_REQUESTS(HttpStatus.TOO_MANY_REQUESTS, "짧은 시간에 너무 많은 요청을 보냈습니다. 잠시 후 다시 시도해주세요."), // 요청 수 과다 (일일 or 초당)
-
+    INVALID_MANSE_FORMAT(HttpStatus.BAD_REQUEST, "만세정보는 8개의 항목이어야 합니다."),
 
     // 행운세 서버 오류
     SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다."),

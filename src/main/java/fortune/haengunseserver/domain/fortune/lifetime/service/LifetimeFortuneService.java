@@ -2,6 +2,7 @@ package fortune.haengunseserver.domain.fortune.lifetime.service;
 
 import fortune.haengunseserver.domain.fortune.common.dto.request.SajuRequest;
 import fortune.haengunseserver.domain.fortune.common.util.GenderConverter;
+import fortune.haengunseserver.domain.fortune.common.util.ManseInfoFormatter;
 import fortune.haengunseserver.domain.fortune.lifetime.dto.response.LifetimeSajuResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import fortune.haengunseserver.global.gpt.util.ChatResponseParser;
@@ -20,7 +21,7 @@ public class LifetimeFortuneService extends FortuneRequestService<SajuRequest, L
 
     @Override
     public Prompt generatePrompt(SajuRequest input) {
-        String manseInfo = input.getManseInfo();
+        String manseInfo = ManseInfoFormatter.format(input.getManseInfo());
         String gender = GenderConverter.toKorean(input.getGender());
 
         String content = String.format("""

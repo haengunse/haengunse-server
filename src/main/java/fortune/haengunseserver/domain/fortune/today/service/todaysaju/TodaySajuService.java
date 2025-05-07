@@ -2,6 +2,7 @@ package fortune.haengunseserver.domain.fortune.today.service.todaysaju;
 
 import fortune.haengunseserver.domain.fortune.common.dto.request.SajuRequest;
 import fortune.haengunseserver.domain.fortune.common.util.GenderConverter;
+import fortune.haengunseserver.domain.fortune.common.util.ManseInfoFormatter;
 import fortune.haengunseserver.domain.fortune.today.dto.response.sajufortune.TodaySajuResponse;
 import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
 import fortune.haengunseserver.global.gpt.util.ChatResponseParser;
@@ -28,7 +29,7 @@ public class TodaySajuService extends FortuneRequestService<SajuRequest, TodaySa
     //  사용자의 생년월일을 만세력으로 변환하여 GPT에 요청할 프롬프트 생성
     @Override
     public Prompt generatePrompt(SajuRequest input) {
-        String manseInfo = input.getManseInfo();
+        String manseInfo = ManseInfoFormatter.format(input.getManseInfo());
         String gender = GenderConverter.toKorean(input.getGender());
         String todayDate = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
