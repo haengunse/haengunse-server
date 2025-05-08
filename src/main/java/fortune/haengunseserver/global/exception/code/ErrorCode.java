@@ -32,14 +32,15 @@ public enum ErrorCode {
     KASI_UNREGISTERED_IP(HttpStatus.FORBIDDEN, "등록되지 않은 IP 주소입니다. 달력 서버에 IP 등록이 필요합니다."), // 32
 
     // GPT API 오류
-    GPT_API_FAILURE(HttpStatus.BAD_GATEWAY, "GPT 서버 응답에 실패했습니다. 잠시 후 다시 시도해주세요."), // 500, 502
-    GPT_TIMEOUT(HttpStatus.GATEWAY_TIMEOUT, "GPT 응답이 지연되고 있습니다."), // 504
-    GPT_OVERLOADED(HttpStatus.SERVICE_UNAVAILABLE, "GPT 서버가 과부하 상태입니다. 잠시 후 다시 시도해주세요."), // 503
+    GPT_API_FAILURE(HttpStatus.BAD_GATEWAY, "GPT 서버 응답에 실패했습니다. 잠시 후 다시 시도해주세요."),
 
-    GPT_BAD_REQUEST(HttpStatus.BAD_REQUEST, "GPT 요청 형식이 잘못되었습니다."), // 400
-    GPT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "GPT API 키가 유효하지 않거나 누락되었습니다."), // 401
-    GPT_QUOTA_EXCEEDED(HttpStatus.FORBIDDEN, "GPT 사용 한도를 초과했습니다. 요금제를 확인해주세요."), // 403
-    GPT_RATE_LIMIT_EXCEEDED(HttpStatus.TOO_MANY_REQUESTS, "GPT 요청 속도 제한을 초과했습니다."); // 429
+    GPT_OVERLOADED(HttpStatus.BAD_GATEWAY, "GPT 서버가 혼잡합니다. 잠시 후 다시 시도해주세요."),
+    GPT_RATE_LIMIT_EXCEEDED(HttpStatus.BAD_GATEWAY, "요청이 너무 많습니다. 잠시 후 다시 시도해주세요."),
+
+    GPT_QUOTA_EXCEEDED(HttpStatus.BAD_GATEWAY, "GPT 사용한도를 초과했습니다. 관리자에게 문의해주세요."),
+    GPT_UNAUTHORIZED(HttpStatus.BAD_GATEWAY, "GPT 인증에 실패했습니다. 관리자에게 문의해주세요."),
+    GPT_ORG_RESTRICTED(HttpStatus.BAD_GATEWAY, "현재 계정으로는 서비스를 이용할 수 없습니다."),
+    GPT_UNSUPPORTED_REGION(HttpStatus.BAD_GATEWAY, "해당 지역에서는 서비스를 이용할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
