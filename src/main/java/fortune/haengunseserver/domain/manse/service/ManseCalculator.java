@@ -11,6 +11,8 @@ import fortune.haengunseserver.domain.manse.enums.Tenkan;
 import fortune.haengunseserver.domain.manse.dto.request.ManseRequest;
 import fortune.haengunseserver.domain.manse.dto.response.ManseResponse;
 import fortune.haengunseserver.global.calendar.service.CalendarService;
+import fortune.haengunseserver.global.exception.CustomException;
+import fortune.haengunseserver.global.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +42,12 @@ public class ManseCalculator {
             String lunMonth = pad2(lunDate.getMonthValue()); // "09"
             String lunDay = pad2(lunDate.getDayOfMonth()); // "01" ~ "31"
 
-            // 한국천문연구원 API 호출로 음력 → 양력 변환
-            solDate = kasiClient.convertToSolar(lunYear, lunMonth, lunDay).block().toLocalDate();
+            try {
+                // 한국천문연구원 API 호출 (음력 → 양력)
+                solDate = kasiClient.convertToSolar(lunYear, lunMonth, lunDay).block().toLocalDate();
+            } catch (Exception e) {
+                throw new CustomException(ErrorCode.KASI_ERROR);
+            }
         }
 
         String yearGanZhi = getYearGanZhi(solDate);
@@ -58,8 +64,6 @@ public class ManseCalculator {
                 "%s %s %s %s",
                 yearGanZhi, monthGanZhi, dayGanZhi, hourGanZhi
         );
-
-        System.out.println(manseInfo);
 
         return new ManseResponse(manseInfo, input.getGender(), input.getName());
     }
