@@ -1,7 +1,6 @@
 package fortune.haengunseserver.global.exception.handler;
 
 import fortune.haengunseserver.global.exception.CustomException;
-import fortune.haengunseserver.global.exception.GptException;
 import fortune.haengunseserver.global.exception.code.ErrorCode;
 import fortune.haengunseserver.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -17,18 +16,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity<ApiResponse> handleCustomException(CustomException ex) {
-        ErrorCode errorCode = ex.getErrorCode();
-
-        ApiResponse errorResponse =
-                new ApiResponse(errorCode.getHttpStatus().value(), errorCode.getMessage());
-
-        return ResponseEntity
-                .status(errorCode.getHttpStatus())
-                .body(errorResponse);
-    }
-
-    @ExceptionHandler(GptException.class)
-    public ResponseEntity<ApiResponse> handleGptException(GptException ex) {
         ErrorCode errorCode = ex.getErrorCode();
 
         ApiResponse errorResponse =
