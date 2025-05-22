@@ -1,8 +1,8 @@
 package fortune.haengunseserver.domain.fortune.today.service.dream;
 
 import fortune.haengunseserver.domain.fortune.today.dto.response.dream.DreamResponse;
-import fortune.haengunseserver.global.gpt.service.FortuneRequestService;
-import fortune.haengunseserver.global.gpt.util.ChatResponseParser;
+import fortune.haengunseserver.domain.gpt.service.FortuneRequestService;
+import fortune.haengunseserver.domain.gpt.util.ChatResponseParser;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.openai.OpenAiChatModel;

@@ -10,7 +10,7 @@ import fortune.haengunseserver.domain.manse.enums.SolarTerm;
 import fortune.haengunseserver.domain.manse.enums.Tenkan;
 import fortune.haengunseserver.domain.manse.dto.request.ManseRequest;
 import fortune.haengunseserver.domain.manse.dto.response.ManseResponse;
-import fortune.haengunseserver.global.calendar.service.CalendarService;
+import fortune.haengunseserver.domain.calendar.service.CalendarService;
 import fortune.haengunseserver.global.exception.CustomException;
 import fortune.haengunseserver.global.exception.code.ErrorCode;
 import lombok.RequiredArgsConstructor;

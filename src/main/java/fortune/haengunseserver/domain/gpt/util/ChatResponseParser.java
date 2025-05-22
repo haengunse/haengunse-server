@@ -1,4 +1,4 @@
-package fortune.haengunseserver.global.gpt.util;
+package fortune.haengunseserver.domain.gpt.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

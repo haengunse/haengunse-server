@@ -1,7 +1,7 @@
-package fortune.haengunseserver.global.calendar.service;
+package fortune.haengunseserver.domain.calendar.service;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import fortune.haengunseserver.global.calendar.dto.response.LunToSolResponse;
+import fortune.haengunseserver.domain.calendar.dto.response.LunToSolResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

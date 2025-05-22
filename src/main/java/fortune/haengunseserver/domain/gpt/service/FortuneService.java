@@ -1,4 +1,4 @@
-package fortune.haengunseserver.global.gpt.service;
+package fortune.haengunseserver.domain.gpt.service;
 
 import org.springframework.ai.chat.prompt.Prompt;
 

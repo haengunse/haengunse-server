@@ -1,4 +1,4 @@
-package fortune.haengunseserver.config;
+package fortune.haengunseserver.global.config;
 
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.Components;

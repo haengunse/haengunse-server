@@ -1,4 +1,4 @@
-package fortune.haengunseserver.global.calendar.dto.response;
+package fortune.haengunseserver.domain.calendar.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;

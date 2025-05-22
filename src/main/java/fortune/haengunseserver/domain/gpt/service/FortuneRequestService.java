@@ -1,4 +1,4 @@
-package fortune.haengunseserver.global.gpt.service;
+package fortune.haengunseserver.domain.gpt.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fortune.haengunseserver.global.exception.CustomException;
