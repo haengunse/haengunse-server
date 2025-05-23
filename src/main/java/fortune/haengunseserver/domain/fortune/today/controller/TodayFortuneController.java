@@ -1,6 +1,5 @@
 package fortune.haengunseserver.domain.fortune.today.controller;
 
-import fortune.haengunseserver.domain.fortune.common.util.ManseInfoFormatter;
 import fortune.haengunseserver.domain.fortune.today.dto.response.agefortune.AgeResponseDto;
 import fortune.haengunseserver.domain.fortune.today.dto.response.starfortune.StarResponseDto;
 import fortune.haengunseserver.domain.fortune.today.service.agefortune.AgeFortuneStore;

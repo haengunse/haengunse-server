@@ -2,7 +2,7 @@ package fortune.haengunseserver.global.exception.handler;
 
 import fortune.haengunseserver.global.exception.CustomException;
 import fortune.haengunseserver.global.exception.code.ErrorCode;
-import fortune.haengunseserver.global.response.ApiResponse;
+import fortune.haengunseserver.global.response.ErrorResponse;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ApiResponse> handleCustomException(CustomException ex) {
+    public ResponseEntity<ErrorResponse> handleCustomException(CustomException ex) {
         ErrorCode errorCode = ex.getErrorCode();
 
-        ApiResponse errorResponse =
-                new ApiResponse(errorCode.getHttpStatus().value(), errorCode.getMessage());
+        ErrorResponse errorResponse =
+                new ErrorResponse(errorCode.getHttpStatus().value(), errorCode.getMessage());
 
         return ResponseEntity
                 .status(errorCode.getHttpStatus())
@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
 
     // 필드 validation 실패
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse> handleValidationException(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         String errorMessage = ex.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getDefaultMessage())
                 .findFirst()
@@ -36,6 +36,6 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ApiResponse(HttpStatus.BAD_REQUEST.value(), errorMessage));
+                .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), errorMessage));
     }
 }
